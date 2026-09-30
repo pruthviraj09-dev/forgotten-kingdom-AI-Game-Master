@@ -1,0 +1,1214 @@
+[
+  {
+    "id": "table.Enemy",
+    "label": "Create table \"Enemy\"",
+    "summary": "Creates table \"Enemy\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Enemy"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Enemy\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Enemy\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Enemy\"",
+        "sql": "CREATE TABLE \"public\".\"Enemy\" (\n  \"description\" text NOT NULL,\n  \"hp\" int4 NOT NULL,\n  \"id\" text NOT NULL,\n  \"locationId\" text NOT NULL,\n  \"maxHp\" int4 NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Enemy\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Enemy\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.InventoryItem",
+    "label": "Create table \"InventoryItem\"",
+    "summary": "Creates table \"InventoryItem\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "InventoryItem"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"InventoryItem\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"InventoryItem\"",
+        "sql": "CREATE TABLE \"public\".\"InventoryItem\" (\n  \"id\" text NOT NULL,\n  \"itemId\" text NOT NULL,\n  \"playerId\" text NOT NULL,\n  \"quantity\" int4 DEFAULT 1 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"InventoryItem\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.Item",
+    "label": "Create table \"Item\"",
+    "summary": "Creates table \"Item\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Item"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Item\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Item\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Item\"",
+        "sql": "CREATE TABLE \"public\".\"Item\" (\n  \"description\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"locationId\" text,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Item\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Item\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.Location",
+    "label": "Create table \"Location\"",
+    "summary": "Creates table \"Location\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Location"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Location\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Location\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Location\"",
+        "sql": "CREATE TABLE \"public\".\"Location\" (\n  \"description\" text NOT NULL,\n  \"gameId\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Location\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Location\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.LocationConnection",
+    "label": "Create table \"LocationConnection\"",
+    "summary": "Creates table \"LocationConnection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "LocationConnection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"LocationConnection\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"LocationConnection\"",
+        "sql": "CREATE TABLE \"public\".\"LocationConnection\" (\n  \"fromLocationId\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"toLocationId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"LocationConnection\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.NPC",
+    "label": "Create table \"NPC\"",
+    "summary": "Creates table \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"NPC\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"NPC\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"NPC\"",
+        "sql": "CREATE TABLE \"public\".\"NPC\" (\n  \"description\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"locationId\" text NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"NPC\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"NPC\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.Player",
+    "label": "Create table \"Player\"",
+    "summary": "Creates table \"Player\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Player"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Player\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Player\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Player\"",
+        "sql": "CREATE TABLE \"public\".\"Player\" (\n  \"gameId\" text NOT NULL,\n  \"gold\" int4 NOT NULL,\n  \"hp\" int4 NOT NULL,\n  \"id\" text NOT NULL,\n  \"level\" int4 NOT NULL,\n  \"locationId\" text NOT NULL,\n  \"maxHp\" int4 NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Player\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Player\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "setDefault.Game.updatedAt",
+    "label": "Set default on \"Game\".\"updatedAt\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "updatedAt",
+        "table": "Game"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"updatedAt\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Game",
+          "updatedAt"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "set default on \"updatedAt\"",
+        "sql": "ALTER TABLE \"public\".\"Game\" ALTER COLUMN \"updatedAt\" SET DEFAULT (now())"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"updatedAt\" has a default",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"column_default\" IS NOT NULL)) AS \"result\"",
+        "params": [
+          "public",
+          "Game",
+          "updatedAt"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.InventoryItem.InventoryItem_playerId_itemId_key",
+    "label": "Add unique constraint on \"InventoryItem\" (playerId, itemId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "InventoryItem_playerId_itemId_key",
+        "table": "InventoryItem"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"InventoryItem_playerId_itemId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "InventoryItem_playerId_itemId_key",
+          "public",
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"InventoryItem_playerId_itemId_key\"",
+        "sql": "ALTER TABLE \"public\".\"InventoryItem\" ADD CONSTRAINT \"InventoryItem_playerId_itemId_key\" UNIQUE (\"playerId\", \"itemId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"InventoryItem_playerId_itemId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "InventoryItem_playerId_itemId_key",
+          "public",
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.LocationConnection.LocationConnection_fromLocationId_toLocationId_key",
+    "label": "Add unique constraint on \"LocationConnection\" (fromLocationId, toLocationId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "LocationConnection_fromLocationId_toLocationId_key",
+        "table": "LocationConnection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"LocationConnection_fromLocationId_toLocationId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LocationConnection_fromLocationId_toLocationId_key",
+          "public",
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"LocationConnection_fromLocationId_toLocationId_key\"",
+        "sql": "ALTER TABLE \"public\".\"LocationConnection\" ADD CONSTRAINT \"LocationConnection_fromLocationId_toLocationId_key\" UNIQUE (\"fromLocationId\", \"toLocationId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"LocationConnection_fromLocationId_toLocationId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LocationConnection_fromLocationId_toLocationId_key",
+          "public",
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.Player.Player_gameId_key",
+    "label": "Add unique constraint on \"Player\" (gameId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "Player_gameId_key",
+        "table": "Player"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Player_gameId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Player_gameId_key",
+          "public",
+          "\"public\".\"Player\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"Player_gameId_key\"",
+        "sql": "ALTER TABLE \"public\".\"Player\" ADD CONSTRAINT \"Player_gameId_key\" UNIQUE (\"gameId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Player_gameId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Player_gameId_key",
+          "public",
+          "\"public\".\"Player\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Enemy.Enemy_locationId_idx_7aae3038",
+    "label": "Create index \"Enemy_locationId_idx_7aae3038\" on \"Enemy\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Enemy_locationId_idx_7aae3038",
+        "table": "Enemy"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Enemy_locationId_idx_7aae3038\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Enemy_locationId_idx_7aae3038\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Enemy_locationId_idx_7aae3038\"",
+        "sql": "CREATE INDEX \"Enemy_locationId_idx_7aae3038\" ON \"public\".\"Enemy\" (\"locationId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Enemy_locationId_idx_7aae3038\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Enemy_locationId_idx_7aae3038\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.InventoryItem.InventoryItem_itemId_idx_41357140",
+    "label": "Create index \"InventoryItem_itemId_idx_41357140\" on \"InventoryItem\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "InventoryItem_itemId_idx_41357140",
+        "table": "InventoryItem"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"InventoryItem_itemId_idx_41357140\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"InventoryItem_itemId_idx_41357140\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"InventoryItem_itemId_idx_41357140\"",
+        "sql": "CREATE INDEX \"InventoryItem_itemId_idx_41357140\" ON \"public\".\"InventoryItem\" (\"itemId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"InventoryItem_itemId_idx_41357140\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"InventoryItem_itemId_idx_41357140\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.InventoryItem.InventoryItem_playerId_idx_710cf1aa",
+    "label": "Create index \"InventoryItem_playerId_idx_710cf1aa\" on \"InventoryItem\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "InventoryItem_playerId_idx_710cf1aa",
+        "table": "InventoryItem"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"InventoryItem_playerId_idx_710cf1aa\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"InventoryItem_playerId_idx_710cf1aa\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"InventoryItem_playerId_idx_710cf1aa\"",
+        "sql": "CREATE INDEX \"InventoryItem_playerId_idx_710cf1aa\" ON \"public\".\"InventoryItem\" (\"playerId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"InventoryItem_playerId_idx_710cf1aa\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"InventoryItem_playerId_idx_710cf1aa\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Item.Item_locationId_idx_7aae3038",
+    "label": "Create index \"Item_locationId_idx_7aae3038\" on \"Item\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Item_locationId_idx_7aae3038",
+        "table": "Item"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Item_locationId_idx_7aae3038\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Item_locationId_idx_7aae3038\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Item_locationId_idx_7aae3038\"",
+        "sql": "CREATE INDEX \"Item_locationId_idx_7aae3038\" ON \"public\".\"Item\" (\"locationId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Item_locationId_idx_7aae3038\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Item_locationId_idx_7aae3038\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Location.Location_gameId_idx_6cdb47f8",
+    "label": "Create index \"Location_gameId_idx_6cdb47f8\" on \"Location\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Location_gameId_idx_6cdb47f8",
+        "table": "Location"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Location_gameId_idx_6cdb47f8\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Location_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Location_gameId_idx_6cdb47f8\"",
+        "sql": "CREATE INDEX \"Location_gameId_idx_6cdb47f8\" ON \"public\".\"Location\" (\"gameId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Location_gameId_idx_6cdb47f8\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Location_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.LocationConnection.LocationConnection_fromLocationId_idx_b4e88e40",
+    "label": "Create index \"LocationConnection_fromLocationId_idx_b4e88e40\" on \"LocationConnection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "LocationConnection_fromLocationId_idx_b4e88e40",
+        "table": "LocationConnection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"LocationConnection_fromLocationId_idx_b4e88e40\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LocationConnection_fromLocationId_idx_b4e88e40\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"LocationConnection_fromLocationId_idx_b4e88e40\"",
+        "sql": "CREATE INDEX \"LocationConnection_fromLocationId_idx_b4e88e40\" ON \"public\".\"LocationConnection\" (\"fromLocationId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"LocationConnection_fromLocationId_idx_b4e88e40\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LocationConnection_fromLocationId_idx_b4e88e40\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.LocationConnection.LocationConnection_toLocationId_idx_d9ceb078",
+    "label": "Create index \"LocationConnection_toLocationId_idx_d9ceb078\" on \"LocationConnection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "LocationConnection_toLocationId_idx_d9ceb078",
+        "table": "LocationConnection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"LocationConnection_toLocationId_idx_d9ceb078\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LocationConnection_toLocationId_idx_d9ceb078\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"LocationConnection_toLocationId_idx_d9ceb078\"",
+        "sql": "CREATE INDEX \"LocationConnection_toLocationId_idx_d9ceb078\" ON \"public\".\"LocationConnection\" (\"toLocationId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"LocationConnection_toLocationId_idx_d9ceb078\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LocationConnection_toLocationId_idx_d9ceb078\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.NPC.NPC_locationId_idx_7aae3038",
+    "label": "Create index \"NPC_locationId_idx_7aae3038\" on \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "NPC_locationId_idx_7aae3038",
+        "table": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"NPC_locationId_idx_7aae3038\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"NPC_locationId_idx_7aae3038\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"NPC_locationId_idx_7aae3038\"",
+        "sql": "CREATE INDEX \"NPC_locationId_idx_7aae3038\" ON \"public\".\"NPC\" (\"locationId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"NPC_locationId_idx_7aae3038\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"NPC_locationId_idx_7aae3038\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Player.Player_locationId_idx_7aae3038",
+    "label": "Create index \"Player_locationId_idx_7aae3038\" on \"Player\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Player_locationId_idx_7aae3038",
+        "table": "Player"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Player_locationId_idx_7aae3038\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Player_locationId_idx_7aae3038\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Player_locationId_idx_7aae3038\"",
+        "sql": "CREATE INDEX \"Player_locationId_idx_7aae3038\" ON \"public\".\"Player\" (\"locationId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Player_locationId_idx_7aae3038\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Player_locationId_idx_7aae3038\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Enemy.Enemy_locationId_fkey",
+    "label": "Add foreign key \"Enemy_locationId_fkey\" on \"Enemy\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Enemy_locationId_fkey",
+        "table": "Enemy"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Enemy_locationId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Enemy_locationId_fkey",
+          "public",
+          "\"public\".\"Enemy\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Enemy_locationId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Enemy\"\nADD CONSTRAINT \"Enemy_locationId_fkey\"\nFOREIGN KEY (\"locationId\")\nREFERENCES \"public\".\"Location\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Enemy_locationId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Enemy_locationId_fkey",
+          "public",
+          "\"public\".\"Enemy\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.InventoryItem.InventoryItem_playerId_fkey",
+    "label": "Add foreign key \"InventoryItem_playerId_fkey\" on \"InventoryItem\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "InventoryItem_playerId_fkey",
+        "table": "InventoryItem"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"InventoryItem_playerId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "InventoryItem_playerId_fkey",
+          "public",
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"InventoryItem_playerId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"InventoryItem\"\nADD CONSTRAINT \"InventoryItem_playerId_fkey\"\nFOREIGN KEY (\"playerId\")\nREFERENCES \"public\".\"Player\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"InventoryItem_playerId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "InventoryItem_playerId_fkey",
+          "public",
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.InventoryItem.InventoryItem_itemId_fkey",
+    "label": "Add foreign key \"InventoryItem_itemId_fkey\" on \"InventoryItem\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "InventoryItem_itemId_fkey",
+        "table": "InventoryItem"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"InventoryItem_itemId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "InventoryItem_itemId_fkey",
+          "public",
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"InventoryItem_itemId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"InventoryItem\"\nADD CONSTRAINT \"InventoryItem_itemId_fkey\"\nFOREIGN KEY (\"itemId\")\nREFERENCES \"public\".\"Item\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"InventoryItem_itemId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "InventoryItem_itemId_fkey",
+          "public",
+          "\"public\".\"InventoryItem\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Item.Item_locationId_fkey",
+    "label": "Add foreign key \"Item_locationId_fkey\" on \"Item\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Item_locationId_fkey",
+        "table": "Item"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Item_locationId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Item_locationId_fkey",
+          "public",
+          "\"public\".\"Item\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Item_locationId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Item\"\nADD CONSTRAINT \"Item_locationId_fkey\"\nFOREIGN KEY (\"locationId\")\nREFERENCES \"public\".\"Location\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Item_locationId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Item_locationId_fkey",
+          "public",
+          "\"public\".\"Item\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Location.Location_gameId_fkey",
+    "label": "Add foreign key \"Location_gameId_fkey\" on \"Location\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Location_gameId_fkey",
+        "table": "Location"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Location_gameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Location_gameId_fkey",
+          "public",
+          "\"public\".\"Location\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Location_gameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Location\"\nADD CONSTRAINT \"Location_gameId_fkey\"\nFOREIGN KEY (\"gameId\")\nREFERENCES \"public\".\"Game\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Location_gameId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Location_gameId_fkey",
+          "public",
+          "\"public\".\"Location\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.LocationConnection.LocationConnection_fromLocationId_fkey",
+    "label": "Add foreign key \"LocationConnection_fromLocationId_fkey\" on \"LocationConnection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "LocationConnection_fromLocationId_fkey",
+        "table": "LocationConnection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"LocationConnection_fromLocationId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LocationConnection_fromLocationId_fkey",
+          "public",
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"LocationConnection_fromLocationId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"LocationConnection\"\nADD CONSTRAINT \"LocationConnection_fromLocationId_fkey\"\nFOREIGN KEY (\"fromLocationId\")\nREFERENCES \"public\".\"Location\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"LocationConnection_fromLocationId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LocationConnection_fromLocationId_fkey",
+          "public",
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.LocationConnection.LocationConnection_toLocationId_fkey",
+    "label": "Add foreign key \"LocationConnection_toLocationId_fkey\" on \"LocationConnection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "LocationConnection_toLocationId_fkey",
+        "table": "LocationConnection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"LocationConnection_toLocationId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LocationConnection_toLocationId_fkey",
+          "public",
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"LocationConnection_toLocationId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"LocationConnection\"\nADD CONSTRAINT \"LocationConnection_toLocationId_fkey\"\nFOREIGN KEY (\"toLocationId\")\nREFERENCES \"public\".\"Location\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"LocationConnection_toLocationId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LocationConnection_toLocationId_fkey",
+          "public",
+          "\"public\".\"LocationConnection\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.NPC.NPC_locationId_fkey",
+    "label": "Add foreign key \"NPC_locationId_fkey\" on \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "NPC_locationId_fkey",
+        "table": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"NPC_locationId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "NPC_locationId_fkey",
+          "public",
+          "\"public\".\"NPC\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"NPC_locationId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"NPC\"\nADD CONSTRAINT \"NPC_locationId_fkey\"\nFOREIGN KEY (\"locationId\")\nREFERENCES \"public\".\"Location\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"NPC_locationId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "NPC_locationId_fkey",
+          "public",
+          "\"public\".\"NPC\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Player.Player_gameId_fkey",
+    "label": "Add foreign key \"Player_gameId_fkey\" on \"Player\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Player_gameId_fkey",
+        "table": "Player"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Player_gameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Player_gameId_fkey",
+          "public",
+          "\"public\".\"Player\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Player_gameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Player\"\nADD CONSTRAINT \"Player_gameId_fkey\"\nFOREIGN KEY (\"gameId\")\nREFERENCES \"public\".\"Game\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Player_gameId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Player_gameId_fkey",
+          "public",
+          "\"public\".\"Player\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Player.Player_locationId_fkey",
+    "label": "Add foreign key \"Player_locationId_fkey\" on \"Player\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Player_locationId_fkey",
+        "table": "Player"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Player_locationId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Player_locationId_fkey",
+          "public",
+          "\"public\".\"Player\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Player_locationId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Player\"\nADD CONSTRAINT \"Player_locationId_fkey\"\nFOREIGN KEY (\"locationId\")\nREFERENCES \"public\".\"Location\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Player_locationId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Player_locationId_fkey",
+          "public",
+          "\"public\".\"Player\""
+        ]
+      }
+    ]
+  }
+]

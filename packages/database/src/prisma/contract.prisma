@@ -1,2 +1,101 @@
 // use prisma-8
 
+model Game {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt Timestamptz @default(now())
+  updatedAt Timestamptz @default(now())
+
+  player    Player?
+  locations Location[]
+}
+
+model Player {
+  id    String @id @default(uuid())
+  name  String
+  hp    Int
+  maxHp Int
+  level Int
+  gold  Int
+
+  gameId String @unique
+  game   Game @relation(fields: [gameId], references: [id])
+
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+
+  inventory InventoryItem[]
+}
+
+model LocationConnection {
+  id String @id @default(uuid())
+
+  fromLocationId String
+  fromLocation   Location @relation("FromLocation", fields: [fromLocationId], references: [id])
+
+  toLocationId String
+  toLocation   Location @relation("ToLocation", fields: [toLocationId], references: [id])
+
+  @@unique([fromLocationId, toLocationId])
+}
+
+model Location {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  gameId String
+  game   Game @relation(fields: [gameId], references: [id])
+
+  players Player[]
+  npcs    NPC[]
+  enemies Enemy[]
+  items   Item[]
+
+  connections LocationConnection[] @relation("FromLocation")
+  connectedTo LocationConnection[] @relation("ToLocation")
+}
+
+model NPC {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+}
+
+model Item {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  locationId String?
+  location   Location? @relation(fields: [locationId], references: [id])
+
+  inventoryItems InventoryItem[]
+}
+
+model InventoryItem {
+  id       String @id @default(uuid())
+  quantity Int    @default(1)
+
+  playerId String
+  player   Player @relation(fields: [playerId], references: [id])
+
+  itemId String
+  item   Item @relation(fields: [itemId], references: [id])
+
+  @@unique([playerId, itemId])
+}
+
+model Enemy {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  hp          Int
+  maxHp       Int
+
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+}
