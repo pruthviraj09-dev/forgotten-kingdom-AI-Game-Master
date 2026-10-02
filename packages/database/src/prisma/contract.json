@@ -12,6 +12,10 @@
       "model": "Game",
       "namespace": "public"
     },
+    "GameMessage": {
+      "model": "GameMessage",
+      "namespace": "public"
+    },
     "InventoryItem": {
       "model": "InventoryItem",
       "namespace": "public"
@@ -176,6 +180,21 @@
                   "namespace": "public"
                 }
               },
+              "messages": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "gameId"
+                  ]
+                },
+                "to": {
+                  "model": "GameMessage",
+                  "namespace": "public"
+                }
+              },
               "player": {
                 "cardinality": "1:1",
                 "nullable": true,
@@ -210,6 +229,84 @@
               },
               "namespaceId": "public",
               "table": "Game"
+            }
+          },
+          "GameMessage": {
+            "fields": {
+              "content": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "gameId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "role": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "game": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "gameId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Game",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "content": {
+                  "column": "content"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "gameId": {
+                  "column": "gameId"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "role": {
+                  "column": "role"
+                }
+              },
+              "namespaceId": "public",
+              "table": "GameMessage"
             }
           },
           "InventoryItem": {
@@ -935,6 +1032,82 @@
               },
               "uniques": []
             },
+            "GameMessage": {
+              "columns": {
+                "content": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "gameId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "role": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "gameId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "GameMessage"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Game"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "gameId",
+                    "createdAt"
+                  ],
+                  "name": "GameMessage_gameId_createdAt_idx_04c2aae6",
+                  "prefix": "GameMessage_gameId_createdAt_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "gameId"
+                  ],
+                  "name": "GameMessage_gameId_idx_6cdb47f8",
+                  "prefix": "GameMessage_gameId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "InventoryItem": {
               "columns": {
                 "id": {
@@ -1392,10 +1565,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "785e450414db108c180e9fa5ca77c8d2cd3c267388cd1a1bd49add09528550d0"
+    "storageHash": "22f63f0bf7de112e0d669b09ab52a93e6d2ca6ccf851724fc9017bd61125bf28"
   },
   "execution": {
-    "executionHash": "6966036aec942b88cc975dc54b6aca7634799fc3bcbc71b449325b4a9de6cd30",
+    "executionHash": "791e82039ccd6f23360f31bace8e63b04531dfe2ac3a546b8873af2ccccd8ed0",
     "mutations": {
       "defaults": [
         {
@@ -1416,6 +1589,17 @@
           },
           "ref": {
             "entry": "Game",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "GameMessage",
             "field": "id",
             "namespace": "public"
           }

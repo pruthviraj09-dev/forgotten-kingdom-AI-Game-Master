@@ -1,0 +1,161 @@
+[
+  {
+    "id": "table.GameMessage",
+    "label": "Create table \"GameMessage\"",
+    "summary": "Creates table \"GameMessage\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "GameMessage"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"GameMessage\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"GameMessage\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"GameMessage\"",
+        "sql": "CREATE TABLE \"public\".\"GameMessage\" (\n  \"content\" text NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"gameId\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"role\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"GameMessage\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"GameMessage\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.GameMessage.GameMessage_gameId_createdAt_idx_04c2aae6",
+    "label": "Create index \"GameMessage_gameId_createdAt_idx_04c2aae6\" on \"GameMessage\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "GameMessage_gameId_createdAt_idx_04c2aae6",
+        "table": "GameMessage"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"GameMessage_gameId_createdAt_idx_04c2aae6\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"GameMessage_gameId_createdAt_idx_04c2aae6\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"GameMessage_gameId_createdAt_idx_04c2aae6\"",
+        "sql": "CREATE INDEX \"GameMessage_gameId_createdAt_idx_04c2aae6\" ON \"public\".\"GameMessage\" (\"gameId\", \"createdAt\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"GameMessage_gameId_createdAt_idx_04c2aae6\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"GameMessage_gameId_createdAt_idx_04c2aae6\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.GameMessage.GameMessage_gameId_idx_6cdb47f8",
+    "label": "Create index \"GameMessage_gameId_idx_6cdb47f8\" on \"GameMessage\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "GameMessage_gameId_idx_6cdb47f8",
+        "table": "GameMessage"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"GameMessage_gameId_idx_6cdb47f8\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"GameMessage_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"GameMessage_gameId_idx_6cdb47f8\"",
+        "sql": "CREATE INDEX \"GameMessage_gameId_idx_6cdb47f8\" ON \"public\".\"GameMessage\" (\"gameId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"GameMessage_gameId_idx_6cdb47f8\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"GameMessage_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.GameMessage.GameMessage_gameId_fkey",
+    "label": "Add foreign key \"GameMessage_gameId_fkey\" on \"GameMessage\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "GameMessage_gameId_fkey",
+        "table": "GameMessage"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"GameMessage_gameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "GameMessage_gameId_fkey",
+          "public",
+          "\"public\".\"GameMessage\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"GameMessage_gameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"GameMessage\"\nADD CONSTRAINT \"GameMessage_gameId_fkey\"\nFOREIGN KEY (\"gameId\")\nREFERENCES \"public\".\"Game\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"GameMessage_gameId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "GameMessage_gameId_fkey",
+          "public",
+          "\"public\".\"GameMessage\""
+        ]
+      }
+    ]
+  }
+]

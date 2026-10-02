@@ -1,7 +1,5 @@
 import { db } from "@repo/db";
 
-
-
 export async function getInventory(gameId: string) {
     const player = await db.orm.public.Player.where({ gameId }).include("inventory", (inventory) => inventory.include("item")).first()
 

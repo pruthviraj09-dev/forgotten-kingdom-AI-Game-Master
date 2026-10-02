@@ -8,6 +8,7 @@ model Game {
 
   player    Player?
   locations Location[]
+  messages  GameMessage[]
 }
 
 model Player {
@@ -98,4 +99,16 @@ model Enemy {
 
   locationId String
   location   Location @relation(fields: [locationId], references: [id])
+}
+
+model GameMessage {
+  id        String   @id @default(uuid())
+  role      String
+  content   String
+  createdAt Timestamptz @default(now())
+
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id])
+
+  @@index([gameId, createdAt])
 }

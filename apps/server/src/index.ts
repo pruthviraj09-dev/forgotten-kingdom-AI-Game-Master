@@ -1,13 +1,16 @@
+import "temporal-polyfill/full/global";
 import express from 'express'
 import cors from 'cors'
 import { db as prisma } from "@repo/db"
-
+import gameRouter from "./routes/game.routes"
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 
 app.get("/health", (req, res) => { res.json({ "status": "OK" }) })
+
+app.use("/game", gameRouter)
 
 app.post("/games", async (req, res) => {
     try {
@@ -53,6 +56,7 @@ app.get("/games", async (req, res) => {
         })
     }
 })
+
 
 app.listen(3000, () => {
     console.log("server is listening on port 3000");
