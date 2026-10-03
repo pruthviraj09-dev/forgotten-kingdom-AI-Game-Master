@@ -19,6 +19,39 @@ export type GameHistoryMessage = {
     createdAt: string;
 };
 
+export type PlayerState = {
+    id: string;
+    name: string;
+    hp: number;
+    maxHp: number;
+    level: number;
+    gold: number;
+    location: {
+        id: string;
+        name: string;
+    };
+};
+
+export type InventoryItem = {
+    itemId: string;
+    name: string;
+    description: string;
+    quantity: number;
+};
+
+export async function getInventory(
+    gameId: string
+): Promise<InventoryItem[]> {
+    const response = await fetch(
+        `${API_URL}/game/${gameId}/inventory`
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to load inventory");
+    }
+
+    return response.json();
+}
 
 export async function sendGameMessage(
     gameId: string,
@@ -51,6 +84,21 @@ export async function getGameMessages(
 
     if (!response.ok) {
         throw new Error("Failed to load game messages");
+    }
+
+    return response.json();
+}
+
+
+export async function getPlayer(
+    gameId: string
+): Promise<PlayerState> {
+    const response = await fetch(
+        `${API_URL}/game/${gameId}/player`
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to load player");
     }
 
     return response.json();
