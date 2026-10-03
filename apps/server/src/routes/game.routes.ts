@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { runAgent } from "../ai/agent"
 import { getGameMessages } from "../game/message.service";
+import { getPlayer } from "../game/player.service";
+import { getInventory } from "../game/inventory.service";
 
 const router = Router()
 
@@ -49,10 +51,39 @@ router.get("/:gameId/messages", async (req, res) => {
             error: "Failed to load game messages",
         });
     }
-
-
-
-
 })
+
+router.get("/:gameId/player", async (req, res) => {
+    try {
+        const { gameId } = req.params;
+
+        const player = await getPlayer
+            (gameId);
+
+        return res.json(player);
+    } catch (error) {
+        console.error("Failed to load player:", error);
+
+        return res.status(500).json({
+            error: "Failed to load player",
+        });
+    }
+})
+
+router.get("/:gameId/inventory", async (req, res) => {
+    try {
+        const { gameId } = req.params;
+
+        const inventory = await getInventory(gameId);
+
+        return res.json(inventory);
+    } catch (error) {
+        console.error("Failed to load inventory:", error);
+
+        return res.status(500).json({
+            error: "Failed to load inventory",
+        });
+    }
+});
 
 export default router
