@@ -17,7 +17,7 @@ export async function getInventory(gameId: string) {
     })
 }
 
-export async function addItem(gameId: string, itemId: string, quantity: number = 1) {
+export async function addItem(gameId: string, itemId: string) {
     const player = await db.orm.public.Player.where({ gameId }).first()
 
     if (!player) {
@@ -32,12 +32,11 @@ export async function addItem(gameId: string, itemId: string, quantity: number =
     const inventoryItem = await db.orm.public.InventoryItem.where({ playerId: player.id, itemId: item.id }).first()
 
     if (inventoryItem) {
-        await db.orm.public.InventoryItem.where({ id: inventoryItem.id }).update({ quantity: inventoryItem.quantity + quantity })
+        throw new Error("item already exist in inventory")
     } else {
         await db.orm.public.InventoryItem.create({
             itemId: item.id,
             playerId: player.id,
-            quantity: quantity
         })
     }
 
@@ -46,7 +45,7 @@ export async function addItem(gameId: string, itemId: string, quantity: number =
     return { success: true, item: inventoryItem }
 }
 
-export async function removeItem(gameId: string, itemId: string, quantity: number = 1) {
+export async function removeItem(gameId: string, itemId: string) {
     const player = await db.orm.public.Player.where({ gameId }).include("inventory", (inventory) => inventory.include("item")).first()
 
     if (!player) {
@@ -59,12 +58,8 @@ export async function removeItem(gameId: string, itemId: string, quantity: numbe
         throw new Error("item not found")
     }
 
-    if (quantity >= inventoryItem.quantity) {
-        await db.orm.public.InventoryItem.where({ id: inventoryItem.id }).delete()
-        await db.orm.public.Item.where({ id: inventoryItem.itemId }).update({ locationId: player.locationId })
-    } else {
-        await db.orm.public.InventoryItem.where({ id: inventoryItem.id }).update({ quantity: inventoryItem.quantity - quantity })
-    }
+    await db.orm.public.InventoryItem.where({ id: inventoryItem.id }).delete()
+    await db.orm.public.Item.where({ id: itemId }).update({ locationId: player.locationId })
 
-    return { success: true, removedItem: { itemId, quantity } }
+    return { success: true }
 }

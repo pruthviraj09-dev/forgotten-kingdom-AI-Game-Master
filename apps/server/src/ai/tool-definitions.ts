@@ -60,6 +60,34 @@ const toolDefinations: FunctionDeclaration[] = [
             },
         },
     },
+    {
+        name: "pickup_item",
+        description: "Pick up an item in the current location and adds it to the inventory.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                itemId: {
+                    type: Type.STRING,
+                    description: "The ID of the item to pickup."
+                },
+            },
+            required: ["itemId"],
+        },
+    },
+    {
+        name: "drop_item",
+        description: "Drop an item from the inventory to the current location.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                itemId: {
+                    type: Type.STRING,
+                    description: "The ID of the item to drop."
+                },
+            },
+            required: ["itemId"],
+        },
+    },
 ]
 
 const gameToolDeclarations = [

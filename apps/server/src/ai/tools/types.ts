@@ -15,3 +15,11 @@ export const movePlayerInput = z.object({
 });
 
 export const getInventoryInput = z.object({});
+
+export const pickupItemInput = z.object({
+    itemId: z.string(),
+});
+
+export const dropItemInput = z.object({
+    itemId: z.string(),
+});

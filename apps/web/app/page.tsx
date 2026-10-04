@@ -35,7 +35,7 @@ import {
 
 import type { ChatMessage } from '../lib/game-types'
 
-const GAME_ID = 'a6d60ac7-33b6-440b-af62-b3cdbe7b52e5'
+const GAME_ID = 'e1b4f7dd-102b-4a4b-b054-b0302a23adc8'
 
 const suggestions = [
   'Explore the ruined watchtower',

@@ -34,6 +34,10 @@ async function main() {
         .where({})
         .deleteAll();
 
+    await db.orm.public.GameMessage
+        .where({})
+        .deleteAll();
+
     await db.orm.public.Game
         .where({})
         .deleteAll();
@@ -126,11 +130,13 @@ async function main() {
     await db.orm.public.Item.create({
         name: "Potion",
         description: "A small red potion that restores health.",
+        locationId: forest.id
     });
 
     await db.orm.public.Item.create({
         name: "Gold",
         description: "A small collection of gold coins.",
+        locationId: forest.id
     });
 
     // --------------------------------------------------

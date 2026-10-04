@@ -1,9 +1,11 @@
+import { dropItemTool } from "./tools/drop-item.tool"
 import { getInventoryTool } from "./tools/get-inventory.tool"
 import { getLocationTool } from "./tools/get-location.tool"
 import { getNearbyLocationsTool } from "./tools/get-nearby-locations.tool"
 import { getPlayerTool } from "./tools/get-player.tool"
 import { movePlayerTool } from "./tools/move-player.tool"
-import { getLocationInput, getNearbyLocationsInput, movePlayerInput } from "./tools/types"
+import { pickupItemTool } from "./tools/pickup-item.tool"
+import { dropItemInput, getLocationInput, getNearbyLocationsInput, movePlayerInput, pickupItemInput } from "./tools/types"
 
 
 type ToolContext = {
@@ -33,8 +35,16 @@ export async function executeTool(
             return getInventoryTool(context.gameId)
 
         case "move_player":
-            const input = movePlayerInput.parse(args)
-            return movePlayerTool(context.gameId, input.destinationId)
+            const mpInput = movePlayerInput.parse(args)
+            return movePlayerTool(context.gameId, mpInput.destinationId)
+
+        case "pickup_item":
+            const pickupInput = pickupItemInput.parse(args)
+            return pickupItemTool(context.gameId, pickupInput.itemId)
+
+        case "drop_item":
+            const dropInput = dropItemInput.parse(args)
+            return dropItemTool(context.gameId, dropInput.itemId)
 
         default:
             throw new Error(`Unknown tool: ${toolName}`)
