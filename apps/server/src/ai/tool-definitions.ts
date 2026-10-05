@@ -88,6 +88,46 @@ const toolDefinations: FunctionDeclaration[] = [
             required: ["itemId"],
         },
     },
+    {
+        name: "get_quests",
+        description: "Get the quests currently associated with the game.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {},
+        },
+    },
+    {
+        name: "create_quest",
+        description: "Create a new quest when the game narrative establishes that the player has received or discovered a quest.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                title: {
+                    type: Type.STRING,
+                    description: "The quest title."
+                },
+                description: {
+                    type: Type.STRING,
+                    description: "A concise description of the quest objective."
+                }
+            },
+            required: ["title", "description"]
+        }
+    },
+    {
+        name: "complete_quest",
+        description: "Complete an existing quest when the game state establishes that its objective has been fulfilled.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                questId: {
+                    type: Type.STRING,
+                    description: "The ID of the quest to complete."
+                }
+            },
+            required: ["questId"]
+        }
+    }
 ]
 
 const gameToolDeclarations = [

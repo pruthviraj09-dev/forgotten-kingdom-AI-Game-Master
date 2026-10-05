@@ -23,3 +23,16 @@ export const pickupItemInput = z.object({
 export const dropItemInput = z.object({
     itemId: z.string(),
 });
+
+export const getQuestsInput = z.object({});
+
+export const createQuestInput = z.object({
+    title: z.string(),
+    description: z.string(),
+    questDescription: z.string(),
+    questTarget: z.number()
+})
+
+export const completeQuestInput = z.object({
+    questId: z.string(),
+})

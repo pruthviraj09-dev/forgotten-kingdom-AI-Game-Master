@@ -1,0 +1,329 @@
+[
+  {
+    "id": "dropCheckConstraint.Quest.Quest_Status_check_e77e64a2",
+    "label": "Drop check constraint \"Quest_Status_check_e77e64a2\" on \"Quest\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Quest_Status_check_e77e64a2",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Quest_Status_check_e77e64a2\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_Status_check_e77e64a2",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop check constraint \"Quest_Status_check_e77e64a2\"",
+        "sql": "ALTER TABLE \"public\".\"Quest\" DROP CONSTRAINT \"Quest_Status_check_e77e64a2\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Quest_Status_check_e77e64a2\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_Status_check_e77e64a2",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Quest.Status",
+    "label": "Drop column \"Status\" from \"Quest\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "Status",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"Status\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Quest",
+          "Status"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"Status\"",
+        "sql": "ALTER TABLE \"public\".\"Quest\" DROP COLUMN \"Status\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"Status\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Quest",
+          "Status"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.QuestObjective",
+    "label": "Create table \"QuestObjective\"",
+    "summary": "Creates table \"QuestObjective\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "QuestObjective"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"QuestObjective\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"QuestObjective\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"QuestObjective\"",
+        "sql": "CREATE TABLE \"public\".\"QuestObjective\" (\n  \"completed\" bool DEFAULT false NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"description\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"progress\" int4 DEFAULT 0 NOT NULL,\n  \"questId\" text NOT NULL,\n  \"target\" int4 DEFAULT 1 NOT NULL,\n  \"updatedAt\" timestamptz DEFAULT (now()) NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"QuestObjective\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"QuestObjective\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.Quest.status",
+    "label": "Add column \"status\" to \"Quest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "status",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"status\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Quest",
+          "status"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"status\"",
+        "sql": "ALTER TABLE \"public\".\"Quest\" ADD COLUMN \"status\" text DEFAULT 'active' NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"status\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Quest",
+          "status"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Quest.Quest_status_check_87fdcf45",
+    "label": "Add check constraint \"Quest_status_check_87fdcf45\" on \"Quest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Quest_status_check_87fdcf45",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Quest_status_check_87fdcf45\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_status_check_87fdcf45",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"Quest_status_check_87fdcf45\"",
+        "sql": "ALTER TABLE \"public\".\"Quest\" ADD CONSTRAINT \"Quest_status_check_87fdcf45\" CHECK (\"status\" IN ('active', 'completed'))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Quest_status_check_87fdcf45\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_status_check_87fdcf45",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Quest.Quest_gameId_status_idx_777eafd3",
+    "label": "Create index \"Quest_gameId_status_idx_777eafd3\" on \"Quest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Quest_gameId_status_idx_777eafd3",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Quest_gameId_status_idx_777eafd3\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Quest_gameId_status_idx_777eafd3\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Quest_gameId_status_idx_777eafd3\"",
+        "sql": "CREATE INDEX \"Quest_gameId_status_idx_777eafd3\" ON \"public\".\"Quest\" (\"gameId\", \"status\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Quest_gameId_status_idx_777eafd3\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Quest_gameId_status_idx_777eafd3\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.QuestObjective.QuestObjective_questId_idx_516cf617",
+    "label": "Create index \"QuestObjective_questId_idx_516cf617\" on \"QuestObjective\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "QuestObjective_questId_idx_516cf617",
+        "table": "QuestObjective"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"QuestObjective_questId_idx_516cf617\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"QuestObjective_questId_idx_516cf617\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"QuestObjective_questId_idx_516cf617\"",
+        "sql": "CREATE INDEX \"QuestObjective_questId_idx_516cf617\" ON \"public\".\"QuestObjective\" (\"questId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"QuestObjective_questId_idx_516cf617\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"QuestObjective_questId_idx_516cf617\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.QuestObjective.QuestObjective_questId_fkey",
+    "label": "Add foreign key \"QuestObjective_questId_fkey\" on \"QuestObjective\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "QuestObjective_questId_fkey",
+        "table": "QuestObjective"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"QuestObjective_questId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "QuestObjective_questId_fkey",
+          "public",
+          "\"public\".\"QuestObjective\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"QuestObjective_questId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"QuestObjective\"\nADD CONSTRAINT \"QuestObjective_questId_fkey\"\nFOREIGN KEY (\"questId\")\nREFERENCES \"public\".\"Quest\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"QuestObjective_questId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "QuestObjective_questId_fkey",
+          "public",
+          "\"public\".\"QuestObjective\""
+        ]
+      }
+    ]
+  }
+]

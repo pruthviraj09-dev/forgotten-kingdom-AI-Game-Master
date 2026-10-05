@@ -1,11 +1,14 @@
+import { completeQuestTool } from "./tools/complete-quest.tool"
+import { createQuestTool } from "./tools/create-quest.tool"
 import { dropItemTool } from "./tools/drop-item.tool"
 import { getInventoryTool } from "./tools/get-inventory.tool"
 import { getLocationTool } from "./tools/get-location.tool"
 import { getNearbyLocationsTool } from "./tools/get-nearby-locations.tool"
 import { getPlayerTool } from "./tools/get-player.tool"
+import { getQuestsTool } from "./tools/get_quests.tool"
 import { movePlayerTool } from "./tools/move-player.tool"
 import { pickupItemTool } from "./tools/pickup-item.tool"
-import { dropItemInput, getLocationInput, getNearbyLocationsInput, movePlayerInput, pickupItemInput } from "./tools/types"
+import { completeQuestInput, createQuestInput, dropItemInput, getLocationInput, getNearbyLocationsInput, movePlayerInput, pickupItemInput } from "./tools/types"
 
 
 type ToolContext = {
@@ -45,6 +48,17 @@ export async function executeTool(
         case "drop_item":
             const dropInput = dropItemInput.parse(args)
             return dropItemTool(context.gameId, dropInput.itemId)
+
+        case "get_quests":
+            return getQuestsTool(context.gameId)
+
+        case "create_quest":
+            const CQInput = createQuestInput.parse(args)
+            return createQuestTool(context.gameId, CQInput.title, CQInput.description, CQInput.questDescription, CQInput.questTarget)
+
+        case "complete_quest":
+            const CCInput = completeQuestInput.parse(args)
+            return completeQuestTool(context.gameId, CCInput.questId)
 
         default:
             throw new Error(`Unknown tool: ${toolName}`)

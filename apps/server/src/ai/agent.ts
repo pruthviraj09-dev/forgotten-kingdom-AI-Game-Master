@@ -4,8 +4,6 @@ import { gameToolDeclarations } from "./tool-definitions";
 import { executeTool } from "./tool-executor";
 import { AgentAction, AgentResult } from "./types";
 
-
-
 const SYSTEM_PROMPT = `
 You are the Game Master for Forgotten Kingdom.
 
@@ -19,6 +17,15 @@ Never invent:
 - inventory items
 - enemies
 - movement results
+- quests
+
+Quest rules:
+
+- Use get_quests when you need to know the player's current quests.
+- Only create a quest when the game narrative establishes that the player has received or discovered one.
+- Never invent quest completion.
+- Only complete a quest when the game state establishes that its objective has been fulfilled.
+- Never invent quest IDs.
 
 The game engine and database are authoritative.
 

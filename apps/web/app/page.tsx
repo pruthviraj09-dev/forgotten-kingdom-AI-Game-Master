@@ -35,12 +35,12 @@ import {
 
 import type { ChatMessage } from '../lib/game-types'
 
-const GAME_ID = 'e1b4f7dd-102b-4a4b-b054-b0302a23adc8'
+const GAME_ID = '65cfed9f-a08c-4de3-a400-379d896f5f09'
 
 const suggestions = [
-  'Explore the ruined watchtower',
-  'Ask the ferryman about the relic',
-  'Inspect the glowing shrine',
+  'Pickup the sword',
+  'Go back to the town',
+  'Pickup the gold',
 ]
 
 export default function Page() {

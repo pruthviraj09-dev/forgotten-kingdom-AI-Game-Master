@@ -1,0 +1,122 @@
+[
+  {
+    "id": "table.Quest",
+    "label": "Create table \"Quest\"",
+    "summary": "Creates table \"Quest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Quest\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Quest\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Quest\"",
+        "sql": "CREATE TABLE \"public\".\"Quest\" (\n  \"Status\" text DEFAULT 'inactive' NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"description\" text NOT NULL,\n  \"gameId\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"title\" text NOT NULL,\n  \"updatedAt\" timestamptz DEFAULT (now()) NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Quest_Status_check_b03e166c\" CHECK (\"Status\" IN ('active', 'inactive'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Quest\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Quest\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Quest.Quest_gameId_idx_6cdb47f8",
+    "label": "Create index \"Quest_gameId_idx_6cdb47f8\" on \"Quest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Quest_gameId_idx_6cdb47f8",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Quest_gameId_idx_6cdb47f8\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Quest_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Quest_gameId_idx_6cdb47f8\"",
+        "sql": "CREATE INDEX \"Quest_gameId_idx_6cdb47f8\" ON \"public\".\"Quest\" (\"gameId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Quest_gameId_idx_6cdb47f8\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Quest_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Quest.Quest_gameId_fkey",
+    "label": "Add foreign key \"Quest_gameId_fkey\" on \"Quest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Quest_gameId_fkey",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Quest_gameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_gameId_fkey",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Quest_gameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Quest\"\nADD CONSTRAINT \"Quest_gameId_fkey\"\nFOREIGN KEY (\"gameId\")\nREFERENCES \"public\".\"Game\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Quest_gameId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_gameId_fkey",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ]
+  }
+]

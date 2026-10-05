@@ -1,0 +1,86 @@
+[
+  {
+    "id": "dropCheckConstraint.Quest.Quest_Status_check_b03e166c",
+    "label": "Drop check constraint \"Quest_Status_check_b03e166c\" on \"Quest\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Quest_Status_check_b03e166c",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Quest_Status_check_b03e166c\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_Status_check_b03e166c",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop check constraint \"Quest_Status_check_b03e166c\"",
+        "sql": "ALTER TABLE \"public\".\"Quest\" DROP CONSTRAINT \"Quest_Status_check_b03e166c\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Quest_Status_check_b03e166c\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_Status_check_b03e166c",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Quest.Quest_Status_check_e77e64a2",
+    "label": "Add check constraint \"Quest_Status_check_e77e64a2\" on \"Quest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Quest_Status_check_e77e64a2",
+        "table": "Quest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Quest_Status_check_e77e64a2\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_Status_check_e77e64a2",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"Quest_Status_check_e77e64a2\"",
+        "sql": "ALTER TABLE \"public\".\"Quest\" ADD CONSTRAINT \"Quest_Status_check_e77e64a2\" CHECK (\"Status\" IN ('active', 'inactive', 'completed'))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Quest_Status_check_e77e64a2\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Quest_Status_check_e77e64a2",
+          "public",
+          "\"public\".\"Quest\""
+        ]
+      }
+    ]
+  }
+]

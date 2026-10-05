@@ -34,9 +34,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'0c9f192ca04f9d1c41a7ea149b10444a188c7c66beaeffe532d7069f4d3e8a13'>;
+  StorageHashBase<'9a76bf9c798050b67d63ffcf95e54fced54c48f302923b9a643e1534a2fdb10f'>;
 export type ExecutionHash =
-  ExecutionHashBase<'046535579617812660b01597eb2726c02ae4fd8f57262fa1daa1b7c494c97664'>;
+  ExecutionHashBase<'3b4858fba1c1a4ec50e3d6de44d51a573ae78ecab1d41afd8b138ca71fb14715'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -311,22 +311,12 @@ export type FieldOutputTypes = {
       readonly name: CodecTypes['pg/text@1']['output'];
     };
     readonly Quest: {
+      readonly Status: 'active' | 'inactive' | 'completed';
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly description: CodecTypes['pg/text@1']['output'];
       readonly gameId: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly status: 'active' | 'completed';
       readonly title: CodecTypes['pg/text@1']['output'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
-    };
-    readonly QuestObjective: {
-      readonly completed: CodecTypes['pg/bool@1']['output'];
-      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
-      readonly description: CodecTypes['pg/text@1']['output'];
-      readonly id: CodecTypes['pg/text@1']['output'];
-      readonly progress: CodecTypes['pg/int4@1']['output'];
-      readonly questId: CodecTypes['pg/text@1']['output'];
-      readonly target: CodecTypes['pg/int4@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
   };
@@ -394,22 +384,12 @@ export type FieldInputTypes = {
       readonly name: CodecTypes['pg/text@1']['input'];
     };
     readonly Quest: {
+      readonly Status: 'active' | 'inactive' | 'completed';
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly description: CodecTypes['pg/text@1']['input'];
       readonly gameId: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly status: 'active' | 'completed';
       readonly title: CodecTypes['pg/text@1']['input'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
-    };
-    readonly QuestObjective: {
-      readonly completed: CodecTypes['pg/bool@1']['input'];
-      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
-      readonly description: CodecTypes['pg/text@1']['input'];
-      readonly id: CodecTypes['pg/text@1']['input'];
-      readonly progress: CodecTypes['pg/int4@1']['input'];
-      readonly questId: CodecTypes['pg/text@1']['input'];
-      readonly target: CodecTypes['pg/int4@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
   };
@@ -481,18 +461,8 @@ export type StorageColumnTypes = {
       readonly description: CodecTypes['pg/text@1']['output'];
       readonly gameId: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly status: 'active' | 'completed';
+      readonly Status: 'active' | 'inactive' | 'completed';
       readonly title: CodecTypes['pg/text@1']['output'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
-    };
-    readonly QuestObjective: {
-      readonly completed: CodecTypes['pg/bool@1']['output'];
-      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
-      readonly description: CodecTypes['pg/text@1']['output'];
-      readonly id: CodecTypes['pg/text@1']['output'];
-      readonly progress: CodecTypes['pg/int4@1']['output'];
-      readonly questId: CodecTypes['pg/text@1']['output'];
-      readonly target: CodecTypes['pg/int4@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
   };
@@ -564,18 +534,8 @@ export type StorageColumnInputTypes = {
       readonly description: CodecTypes['pg/text@1']['input'];
       readonly gameId: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly status: 'active' | 'completed';
+      readonly Status: 'active' | 'inactive' | 'completed';
       readonly title: CodecTypes['pg/text@1']['input'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
-    };
-    readonly QuestObjective: {
-      readonly completed: CodecTypes['pg/bool@1']['input'];
-      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
-      readonly description: CodecTypes['pg/text@1']['input'];
-      readonly id: CodecTypes['pg/text@1']['input'];
-      readonly progress: CodecTypes['pg/int4@1']['input'];
-      readonly questId: CodecTypes['pg/text@1']['input'];
-      readonly target: CodecTypes['pg/int4@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
   };
@@ -676,28 +636,15 @@ export namespace Models {
     readonly [RelationKeys]?: 'game' | 'inventory' | 'location';
   };
   export type public_Quest = {
+    Status: 'active' | 'inactive' | 'completed';
     createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     description: CodecTypes['pg/text@1']['output'];
     gameId: CodecTypes['pg/text@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
-    status: 'active' | 'completed';
     title: CodecTypes['pg/text@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     game: public_Game;
-    objectives: public_QuestObjective[];
-    readonly [RelationKeys]?: 'game' | 'objectives';
-  };
-  export type public_QuestObjective = {
-    completed: CodecTypes['pg/bool@1']['output'];
-    createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
-    description: CodecTypes['pg/text@1']['output'];
-    id: CodecTypes['pg/text@1']['output'];
-    progress: CodecTypes['pg/int4@1']['output'];
-    questId: CodecTypes['pg/text@1']['output'];
-    target: CodecTypes['pg/int4@1']['output'];
-    updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
-    quest: public_Quest;
-    readonly [RelationKeys]?: 'quest';
+    readonly [RelationKeys]?: 'game';
   };
 }
 
@@ -713,7 +660,6 @@ export declare const models: {
     NPC: Models.public_NPC;
     Player: Models.public_Player;
     Quest: Models.public_Quest;
-    QuestObjective: Models.public_QuestObjective;
   };
 };
 
@@ -1240,6 +1186,15 @@ type ContractBase = Omit<
             };
             readonly Quest: {
               columns: {
+                readonly Status: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'inactive'>;
+                  };
+                };
                 readonly createdAt: {
                   readonly nativeType: 'timestamptz';
                   readonly codecId: 'pg/timestamptz-temporal@1';
@@ -1260,15 +1215,6 @@ type ContractBase = Omit<
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
-                };
-                readonly status: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'literal';
-                    readonly value: DefaultLiteralValue<'pg/text@1', 'active'>;
-                  };
                 };
                 readonly title: {
                   readonly nativeType: 'text';
@@ -1291,12 +1237,6 @@ type ContractBase = Omit<
                   readonly columns: readonly ['gameId'];
                   readonly unique: false;
                 },
-                {
-                  readonly name: 'Quest_gameId_status_idx_777eafd3';
-                  readonly prefix: 'Quest_gameId_status_idx';
-                  readonly columns: readonly ['gameId', 'status'];
-                  readonly unique: false;
-                },
               ];
               foreignKeys: readonly [
                 {
@@ -1313,93 +1253,11 @@ type ContractBase = Omit<
                 },
               ];
             };
-            readonly QuestObjective: {
-              columns: {
-                readonly completed: {
-                  readonly nativeType: 'bool';
-                  readonly codecId: 'pg/bool@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'literal';
-                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
-                  };
-                };
-                readonly createdAt: {
-                  readonly nativeType: 'timestamptz';
-                  readonly codecId: 'pg/timestamptz-temporal@1';
-                  readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
-                };
-                readonly description: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly id: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly progress: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'literal';
-                    readonly value: DefaultLiteralValue<'pg/int4@1', 0>;
-                  };
-                };
-                readonly questId: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly target: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'literal';
-                    readonly value: DefaultLiteralValue<'pg/int4@1', 1>;
-                  };
-                };
-                readonly updatedAt: {
-                  readonly nativeType: 'timestamptz';
-                  readonly codecId: 'pg/timestamptz-temporal@1';
-                  readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [];
-              indexes: readonly [
-                {
-                  readonly name: 'QuestObjective_questId_idx_516cf617';
-                  readonly prefix: 'QuestObjective_questId_idx';
-                  readonly columns: readonly ['questId'];
-                  readonly unique: false;
-                },
-              ];
-              foreignKeys: readonly [
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'QuestObjective';
-                    readonly columns: readonly ['questId'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Quest';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-              ];
-            };
           };
           readonly valueSet: {
             readonly Status: {
               readonly kind: 'valueSet';
-              readonly values: readonly ['active', 'completed'];
+              readonly values: readonly ['active', 'inactive', 'completed'];
             };
           };
         };
@@ -1431,10 +1289,6 @@ type ContractBase = Omit<
     readonly NPC: { readonly namespace: 'public' & NamespaceId; readonly model: 'NPC' };
     readonly Player: { readonly namespace: 'public' & NamespaceId; readonly model: 'Player' };
     readonly Quest: { readonly namespace: 'public' & NamespaceId; readonly model: 'Quest' };
-    readonly QuestObjective: {
-      readonly namespace: 'public' & NamespaceId;
-      readonly model: 'QuestObjective';
-    };
   };
   readonly domain: {
     readonly namespaces: {
@@ -2016,6 +1870,10 @@ type ContractBase = Omit<
           };
           readonly Quest: {
             readonly fields: {
+              readonly Status: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly createdAt: {
                 readonly nullable: false;
                 readonly type: {
@@ -2032,10 +1890,6 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
               readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly status: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -2061,98 +1915,17 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['id'];
                 };
               };
-              readonly objectives: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'QuestObjective';
-                };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id'];
-                  readonly targetFields: readonly ['questId'];
-                };
-              };
             };
             readonly storage: {
               readonly table: 'Quest';
               readonly namespaceId: 'public';
               readonly fields: {
+                readonly Status: { readonly column: 'Status' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly description: { readonly column: 'description' };
                 readonly gameId: { readonly column: 'gameId' };
                 readonly id: { readonly column: 'id' };
-                readonly status: { readonly column: 'status' };
                 readonly title: { readonly column: 'title' };
-                readonly updatedAt: { readonly column: 'updatedAt' };
-              };
-            };
-          };
-          readonly QuestObjective: {
-            readonly fields: {
-              readonly completed: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
-              };
-              readonly createdAt: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-temporal@1';
-                };
-              };
-              readonly description: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly progress: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly questId: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly target: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly updatedAt: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-temporal@1';
-                };
-              };
-            };
-            readonly relations: {
-              readonly quest: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Quest';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['questId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-            };
-            readonly storage: {
-              readonly table: 'QuestObjective';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly completed: { readonly column: 'completed' };
-                readonly createdAt: { readonly column: 'createdAt' };
-                readonly description: { readonly column: 'description' };
-                readonly id: { readonly column: 'id' };
-                readonly progress: { readonly column: 'progress' };
-                readonly questId: { readonly column: 'questId' };
-                readonly target: { readonly column: 'target' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
             };
@@ -2163,6 +1936,7 @@ type ContractBase = Omit<
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
               { readonly name: 'active'; readonly value: 'active' },
+              { readonly name: 'inactive'; readonly value: 'inactive' },
               { readonly name: 'completed'; readonly value: 'completed' },
             ];
           };
@@ -2271,14 +2045,6 @@ type ContractBase = Omit<
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
             readonly entry: 'Quest';
-            readonly field: 'id';
-            readonly namespace: 'public';
-          };
-        },
-        {
-          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
-          readonly ref: {
-            readonly entry: 'QuestObjective';
             readonly field: 'id';
             readonly namespace: 'public';
           };
