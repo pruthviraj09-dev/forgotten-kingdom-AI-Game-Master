@@ -138,6 +138,9 @@ model QuestObjective {
   target      Int      @default(1)
   completed   Boolean  @default(false)
 
+  type        String
+  targetLocationId String?
+
   quest Quest @relation(fields: [questId], references: [id])
   questId String
 

@@ -1123,6 +1123,20 @@
                   "kind": "scalar"
                 }
               },
+              "targetLocationId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "type": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "updatedAt": {
                 "nullable": false,
                 "type": {
@@ -1171,6 +1185,12 @@
                 },
                 "target": {
                   "column": "target"
+                },
+                "targetLocationId": {
+                  "column": "targetLocationId"
+                },
+                "type": {
+                  "column": "type"
                 },
                 "updatedAt": {
                   "column": "updatedAt"
@@ -1984,6 +2004,16 @@
                   "nativeType": "int4",
                   "nullable": false
                 },
+                "targetLocationId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "type": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
                 "updatedAt": {
                   "codecId": "pg/timestamptz-temporal@1",
                   "default": {
@@ -2044,7 +2074,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "0c9f192ca04f9d1c41a7ea149b10444a188c7c66beaeffe532d7069f4d3e8a13"
+    "storageHash": "7827d1dc9e4dce6715072c1b3fede402980f1b42dab12e0ad21e47fe5572f0bb"
   },
   "execution": {
     "executionHash": "046535579617812660b01597eb2726c02ae4fd8f57262fa1daa1b7c494c97664",

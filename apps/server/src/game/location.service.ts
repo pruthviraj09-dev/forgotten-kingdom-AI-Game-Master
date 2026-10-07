@@ -1,4 +1,5 @@
 import { db } from "@repo/db";
+import { updateLocationObjectives } from "./quest.service";
 
 export async function getLocation(
     gameId: string,
@@ -89,6 +90,8 @@ export async function movePlayer(gameId: string, destinationId: string) {
         throw new Error("failed to update player location")
     }
 
+    const updatedObjectives = await updateLocationObjectives(gameId, destinationId)
+
     return {
         success: true,
         previousLocation: {
@@ -100,8 +103,8 @@ export async function movePlayer(gameId: string, destinationId: string) {
             id: updatedPlayer.location.id,
             name: updatedPlayer.location.name,
             description: updatedPlayer.location.description,
-
-        }
+        },
+        questUpdates: updatedObjectives,
     }
 
 }
