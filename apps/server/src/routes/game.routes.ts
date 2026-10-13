@@ -3,6 +3,7 @@ import { runAgent } from "../ai/agent"
 import { getGameMessages } from "../game/message.service";
 import { getPlayer } from "../game/player.service";
 import { getInventory } from "../game/inventory.service";
+import { getQuests } from "../game/quest.service";
 
 const router = Router()
 
@@ -85,5 +86,21 @@ router.get("/:gameId/inventory", async (req, res) => {
         });
     }
 });
+
+router.get("/:gameId/quests", async (req, res) => {
+    try {
+        const { gameId } = req.params;
+
+        const quests = await getQuests(gameId);
+
+        return res.json(quests);
+    } catch (error) {
+        console.error("Failed to load quests:", error);
+
+        return res.status(500).json({
+            error: "Failed to load quests",
+        });
+    }
+})
 
 export default router

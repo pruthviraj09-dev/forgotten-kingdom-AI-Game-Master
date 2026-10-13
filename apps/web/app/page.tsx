@@ -27,6 +27,8 @@ import {
   getGameMessages,
   getInventory,
   getPlayer,
+  getQuests,
+  Quest,
   sendGameMessage,
   type AgentAction,
   type InventoryItem,
@@ -35,7 +37,7 @@ import {
 
 import type { ChatMessage } from '../lib/game-types'
 
-const GAME_ID = '65cfed9f-a08c-4de3-a400-379d896f5f09'
+const GAME_ID = '39c5e2a2-ae95-4e8f-9a53-0d6caf5beca0'
 
 const suggestions = [
   'Pickup the sword',
@@ -53,6 +55,7 @@ export default function Page() {
   const [player, setPlayer] = useState<PlayerState | null>(null)
   const [inventory, setInventory] = useState<InventoryItem[]>([])
 
+  const [quests, setQuests] = useState<Quest[]>([]);
   const [loading, setLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
   const [error, setError] = useState('')
@@ -70,11 +73,12 @@ export default function Page() {
         setInitialLoading(true)
         setError('')
 
-        const [history, playerState, inventoryState] =
+        const [history, playerState, inventoryState, loadedQuests] =
           await Promise.all([
             getGameMessages(GAME_ID),
             getPlayer(GAME_ID),
             getInventory(GAME_ID),
+            getQuests(GAME_ID)
           ])
 
         if (!mounted) return
@@ -89,6 +93,7 @@ export default function Page() {
 
         setPlayer(playerState)
         setInventory(inventoryState)
+        setQuests(loadedQuests)
       } catch (error) {
         console.error(error)
 
@@ -140,14 +145,16 @@ export default function Page() {
         trimmed
       )
 
-      const [updatedPlayer, updatedInventory] =
+      const [updatedPlayer, updatedInventory, updatedQuestsState] =
         await Promise.all([
           getPlayer(GAME_ID),
           getInventory(GAME_ID),
+          getQuests(GAME_ID)
         ])
 
       setPlayer(updatedPlayer)
       setInventory(updatedInventory)
+      setQuests(updatedQuestsState)
 
       const gmMessage: ChatMessage = {
         id: crypto.randomUUID(),
@@ -634,28 +641,81 @@ export default function Page() {
               </div>
 
               {/* QUEST */}
-              <div className="mb-7 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
-                <div className="mb-4 flex items-center justify-between">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/40">
-                    Active quest
+              <section className="rounded-xl border border-white/10 bg-white/5 p-4">
+                <h2 className="mb-3 text-lg font-semibold">
+                  Quests
+                </h2>
+
+                {quests.length === 0 ? (
+                  <p className="text-sm text-gray-400">
+                    No quests yet. Talk to someone to discover a quest.
                   </p>
+                ) : (
+                  <div className="space-y-4">
+                    {quests.map((quest) => (
+                      <div
+                        key={quest.id}
+                        className="rounded-lg border border-white/10 p-3"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-medium">
+                            {quest.title}
+                          </h3>
 
-                  <ScrollText className="size-4 text-amber-200/60" />
-                </div>
+                          <span className="text-xs text-gray-400">
+                            {quest.status}
+                          </span>
+                        </div>
 
-                <p className="font-serif text-base text-white">
-                  The Ashen Crown
-                </p>
+                        <p className="mt-1 text-sm text-gray-400">
+                          {quest.description}
+                        </p>
 
-                <p className="mt-2 text-xs leading-5 text-white/45">
-                  Find the three lost fragments before the eclipse.
-                </p>
+                        <div className="mt-3 space-y-3">
+                          {quest.objectives.map((objective) => {
+                            const percentage =
+                              objective.target > 0
+                                ? Math.min(
+                                  100,
+                                  Math.round(
+                                    (objective.progress /
+                                      objective.target) *
+                                    100
+                                  )
+                                )
+                                : 0;
 
-                <div className="mt-4 flex items-center gap-2 text-xs text-amber-200/70">
-                  <Gem className="size-3" />
-                  1 of 3 fragments found
-                </div>
-              </div>
+                            return (
+                              <div key={objective.id}>
+                                <div className="mb-1 flex justify-between gap-2 text-sm">
+                                  <span>{objective.description}</span>
+
+                                  <span className="text-gray-400">
+                                    {objective.progress}/{objective.target}
+                                  </span>
+                                </div>
+
+                                <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                                  <div
+                                    className="h-full rounded-full bg-emerald-500 transition-all"
+                                    style={{ width: `${percentage}%` }}
+                                  />
+                                </div>
+
+                                {objective.completed && (
+                                  <p className="mt-1 text-xs text-emerald-400">
+                                    Objective completed
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
 
               {/* INVENTORY */}
               <div>

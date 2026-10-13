@@ -27,12 +27,17 @@ export const dropItemInput = z.object({
 export const getQuestsInput = z.object({});
 
 export const createQuestInput = z.object({
-    title: z.string(),
-    description: z.string(),
-    questDescription: z.string(),
-    questTarget: z.number()
+    title: z.string().min(1),
+    description: z.string().min(1),
+    objectiveDescription: z.string().min(1),
+    objectiveType: z.enum(["VISIT_LOCATION"]),
+    targetLocationId: z.string().min(1),
 })
 
 export const completeQuestInput = z.object({
     questId: z.string(),
+})
+
+export const talkToNpcInput = z.object({
+    npcId: z.string(),
 })

@@ -8,7 +8,8 @@ import { getPlayerTool } from "./tools/get-player.tool"
 import { getQuestsTool } from "./tools/get_quests.tool"
 import { movePlayerTool } from "./tools/move-player.tool"
 import { pickupItemTool } from "./tools/pickup-item.tool"
-import { completeQuestInput, createQuestInput, dropItemInput, getLocationInput, getNearbyLocationsInput, movePlayerInput, pickupItemInput } from "./tools/types"
+import { talkToNpcTool } from "./tools/talk-to-npc.tool"
+import { completeQuestInput, createQuestInput, dropItemInput, getLocationInput, getNearbyLocationsInput, movePlayerInput, pickupItemInput, talkToNpcInput } from "./tools/types"
 
 
 type ToolContext = {
@@ -52,13 +53,31 @@ export async function executeTool(
         case "get_quests":
             return getQuestsTool(context.gameId)
 
-        case "create_quest":
-            const CQInput = createQuestInput.parse(args)
-            return createQuestTool(context.gameId, CQInput.title, CQInput.description, CQInput.questDescription, CQInput.questTarget)
+        case "create_quest": {
+            const input = createQuestInput.parse(args);
 
+            return createQuestTool(
+                context.gameId,
+                input.title,
+                input.description,
+                input.objectiveDescription,
+                input.objectiveType,
+                input.targetLocationId
+            );
+        }
         case "complete_quest":
             const CCInput = completeQuestInput.parse(args)
             return completeQuestTool(context.gameId, CCInput.questId)
+
+        case "talk_to_npc":
+            const TTNInput = talkToNpcInput.parse(args)
+            return talkToNpcTool(context.gameId, TTNInput.npcId)
+
+        // case "attack_enemy":
+
+        // case "use_item":
+
+        // case "":  
 
         default:
             throw new Error(`Unknown tool: ${toolName}`)

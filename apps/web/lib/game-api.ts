@@ -103,3 +103,35 @@ export async function getPlayer(
 
     return response.json();
 }
+
+export type QuestObjective = {
+    id: string;
+    description: string;
+    type: string;
+    targetLocationId: string | null;
+    progress: number;
+    target: number;
+    completed: boolean;
+};
+
+export type Quest = {
+    id: string;
+    title: string;
+    description: string;
+    status: string;
+    objectives: QuestObjective[];
+};
+
+export async function getQuests(
+    gameId: string
+): Promise<Quest[]> {
+    const response = await fetch(
+        `${API_URL}/game/${gameId}/quests`
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to load quests");
+    }
+
+    return response.json();
+}

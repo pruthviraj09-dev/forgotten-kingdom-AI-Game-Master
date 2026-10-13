@@ -1,0 +1,212 @@
+[
+  {
+    "id": "column.public.NPC.questObjectiveDescription",
+    "label": "Add column \"questObjectiveDescription\" to \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "questObjectiveDescription",
+        "table": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"questObjectiveDescription\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questObjectiveDescription"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"questObjectiveDescription\"",
+        "sql": "ALTER TABLE \"public\".\"NPC\" ADD COLUMN \"questObjectiveDescription\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"questObjectiveDescription\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questObjectiveDescription"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.NPC.questObjectiveType",
+    "label": "Add column \"questObjectiveType\" to \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "questObjectiveType",
+        "table": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"questObjectiveType\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questObjectiveType"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"questObjectiveType\"",
+        "sql": "ALTER TABLE \"public\".\"NPC\" ADD COLUMN \"questObjectiveType\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"questObjectiveType\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questObjectiveType"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.NPC.questOfferDescription",
+    "label": "Add column \"questOfferDescription\" to \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "questOfferDescription",
+        "table": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"questOfferDescription\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questOfferDescription"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"questOfferDescription\"",
+        "sql": "ALTER TABLE \"public\".\"NPC\" ADD COLUMN \"questOfferDescription\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"questOfferDescription\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questOfferDescription"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.NPC.questOfferTitle",
+    "label": "Add column \"questOfferTitle\" to \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "questOfferTitle",
+        "table": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"questOfferTitle\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questOfferTitle"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"questOfferTitle\"",
+        "sql": "ALTER TABLE \"public\".\"NPC\" ADD COLUMN \"questOfferTitle\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"questOfferTitle\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questOfferTitle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.NPC.questTargetLocationId",
+    "label": "Add column \"questTargetLocationId\" to \"NPC\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "questTargetLocationId",
+        "table": "NPC"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"questTargetLocationId\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questTargetLocationId"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"questTargetLocationId\"",
+        "sql": "ALTER TABLE \"public\".\"NPC\" ADD COLUMN \"questTargetLocationId\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"questTargetLocationId\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "NPC",
+          "questTargetLocationId"
+        ]
+      }
+    ]
+  }
+]

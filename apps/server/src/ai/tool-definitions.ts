@@ -127,6 +127,20 @@ const toolDefinations: FunctionDeclaration[] = [
             },
             required: ["questId"]
         }
+    },
+    {
+        name: "talk_to_npc",
+        description: "Talk to an NPC in the current location. This will provide additional details about the location and may offer quests or items to the player.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                npcId: {
+                    type: Type.STRING,
+                    description: "The ID of the NPC to talk to."
+                },
+            },
+            required: ["npcId"]
+        }
     }
 ]
 

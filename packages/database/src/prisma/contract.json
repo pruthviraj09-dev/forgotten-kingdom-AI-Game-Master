@@ -775,6 +775,41 @@
                   "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
+              },
+              "questObjectiveDescription": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "questObjectiveType": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "questOfferDescription": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "questOfferTitle": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "questTargetLocationId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
               }
             },
             "relations": {
@@ -808,6 +843,21 @@
                 },
                 "name": {
                   "column": "name"
+                },
+                "questObjectiveDescription": {
+                  "column": "questObjectiveDescription"
+                },
+                "questObjectiveType": {
+                  "column": "questObjectiveType"
+                },
+                "questOfferDescription": {
+                  "column": "questOfferDescription"
+                },
+                "questOfferTitle": {
+                  "column": "questOfferTitle"
+                },
+                "questTargetLocationId": {
+                  "column": "questTargetLocationId"
                 }
               },
               "namespaceId": "public",
@@ -1707,6 +1757,31 @@
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": false
+                },
+                "questObjectiveDescription": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "questObjectiveType": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "questOfferDescription": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "questOfferTitle": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "questTargetLocationId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
                 }
               },
               "foreignKeys": [
@@ -2074,7 +2149,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "7827d1dc9e4dce6715072c1b3fede402980f1b42dab12e0ad21e47fe5572f0bb"
+    "storageHash": "900cdb199045720c249aa61425706d0425370cc39861f848618058ba99a6823f"
   },
   "execution": {
     "executionHash": "046535579617812660b01597eb2726c02ae4fd8f57262fa1daa1b7c494c97664",

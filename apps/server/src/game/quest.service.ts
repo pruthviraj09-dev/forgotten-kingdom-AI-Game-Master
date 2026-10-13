@@ -5,28 +5,41 @@ export async function getQuests(gameId: string) {
     return db.orm.public.Quest.where({ gameId }).include("objectives").orderBy((q) => q.createdAt.asc()).all()
 }
 
-export async function createQuest(gameId: string, title: string, description: string,
+export async function createQuest(
+    gameId: string,
+    title: string,
+    description: string,
     objectiveDescription: string,
     objectiveType: string,
     targetLocationId?: string,
     objectiveTarget = 1,
 ) {
+    if (!Number.isInteger(objectiveTarget) || objectiveTarget < 1) {
+        throw new Error("Objective target must be a positive integer");
+    }
 
-    const game = await db.orm.public.Game.where({ id: gameId }).first()
+    const game = await db.orm.public.Game
+        .where({ id: gameId })
+        .first();
 
     if (!game) {
-        throw new Error("game not found")
+        throw new Error("Game not found");
     }
 
     if (objectiveType === "VISIT_LOCATION" && !targetLocationId) {
-        throw new Error("VISIT_LOCATION objectives require a target location")
+        throw new Error(
+            "VISIT_LOCATION objectives require a target location"
+        );
     }
 
     if (targetLocationId) {
-        const location = await db.orm.public.Location.where({ id: targetLocationId }).where((l) => l.gameId.eq(gameId)).first()
+        const location = await db.orm.public.Location
+            .where({ id: targetLocationId })
+            .where((l) => l.gameId.eq(gameId))
+            .first();
 
         if (!location) {
-            throw new Error("Target location not found in the game")
+            throw new Error("Target location not found in the game");
         }
     }
 
@@ -40,10 +53,9 @@ export async function createQuest(gameId: string, title: string, description: st
                 description: objectiveDescription,
                 target: objectiveTarget,
                 type: objectiveType,
-                targetLocationId: targetLocationId
-            })
-    })
-
+                targetLocationId,
+            }),
+    });
 }
 
 export async function completeQuest(gameId: string, questId: string) {
@@ -96,37 +108,28 @@ export async function updateLocationObjectives(
     gameId: string,
     locationId: string
 ) {
+    const activeQuests = await db.orm.public.Quest.include("objectives").where({ gameId, status: "active" }).all()
 
-    const quest = await db.orm.public.Quest.include("objectives").where({ gameId }).first()
-
-    if (!quest) {
-        throw new Error("quest not found in game!")
-    }
-
-    if (quest.status != "active") {
-        throw new Error("quest is already completed")
-    }
-
-    const objectives = await db.orm.public.QuestObjective.where({ type: "VISIT_LOCATION", targetLocationId: locationId, completed: false, questId: quest.id }).all()
-
-    if (objectives.length === 0) {
+    if (activeQuests.length === 0) {
         return [];
     }
 
     const updates = [];
 
-    for (const objective of objectives) {
-        const newProgress = Math.min(
-            objective.progress + 1,
-            objective.target
-        );
+    for (const quest of activeQuests) {
+        const objectives = await db.orm.public.QuestObjective
+            .where({ type: "VISIT_LOCATION", targetLocationId: locationId, completed: false, questId: quest.id })
+            .all()
 
-        const updated = await db.orm.public.QuestObjective.where({ id: objective.id }).update({
-            progress: newProgress,
-            completed: newProgress >= objective.target,
-        });
+        if (objectives.length === 0) {
+            continue;
+        }
 
-        updates.push(updated);
+        for (const objective of objectives) {
+            const newProgress = Math.min(objective.progress + 1, objective.target)
+            const updated = await db.orm.public.QuestObjective.where({ id: objective.id }).update({ progress: newProgress, completed: newProgress >= objective.target })
+            updates.push(updated)
+        }
     }
 
     return updates;

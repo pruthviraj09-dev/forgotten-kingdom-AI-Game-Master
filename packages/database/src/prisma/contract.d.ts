@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'7827d1dc9e4dce6715072c1b3fede402980f1b42dab12e0ad21e47fe5572f0bb'>;
+  StorageHashBase<'900cdb199045720c249aa61425706d0425370cc39861f848618058ba99a6823f'>;
 export type ExecutionHash =
   ExecutionHashBase<'046535579617812660b01597eb2726c02ae4fd8f57262fa1daa1b7c494c97664'>;
 export type ProfileHash =
@@ -299,6 +299,11 @@ export type FieldOutputTypes = {
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly locationId: CodecTypes['pg/text@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
+      readonly questObjectiveDescription: CodecTypes['pg/text@1']['output'] | null;
+      readonly questObjectiveType: CodecTypes['pg/text@1']['output'] | null;
+      readonly questOfferDescription: CodecTypes['pg/text@1']['output'] | null;
+      readonly questOfferTitle: CodecTypes['pg/text@1']['output'] | null;
+      readonly questTargetLocationId: CodecTypes['pg/text@1']['output'] | null;
     };
     readonly Player: {
       readonly gameId: CodecTypes['pg/text@1']['output'];
@@ -384,6 +389,11 @@ export type FieldInputTypes = {
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly locationId: CodecTypes['pg/text@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
+      readonly questObjectiveDescription: CodecTypes['pg/text@1']['input'] | null;
+      readonly questObjectiveType: CodecTypes['pg/text@1']['input'] | null;
+      readonly questOfferDescription: CodecTypes['pg/text@1']['input'] | null;
+      readonly questOfferTitle: CodecTypes['pg/text@1']['input'] | null;
+      readonly questTargetLocationId: CodecTypes['pg/text@1']['input'] | null;
     };
     readonly Player: {
       readonly gameId: CodecTypes['pg/text@1']['input'];
@@ -469,6 +479,11 @@ export type StorageColumnTypes = {
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly locationId: CodecTypes['pg/text@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
+      readonly questObjectiveDescription: CodecTypes['pg/text@1']['output'] | null;
+      readonly questObjectiveType: CodecTypes['pg/text@1']['output'] | null;
+      readonly questOfferDescription: CodecTypes['pg/text@1']['output'] | null;
+      readonly questOfferTitle: CodecTypes['pg/text@1']['output'] | null;
+      readonly questTargetLocationId: CodecTypes['pg/text@1']['output'] | null;
     };
     readonly Player: {
       readonly gameId: CodecTypes['pg/text@1']['output'];
@@ -554,6 +569,11 @@ export type StorageColumnInputTypes = {
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly locationId: CodecTypes['pg/text@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
+      readonly questObjectiveDescription: CodecTypes['pg/text@1']['input'] | null;
+      readonly questObjectiveType: CodecTypes['pg/text@1']['input'] | null;
+      readonly questOfferDescription: CodecTypes['pg/text@1']['input'] | null;
+      readonly questOfferTitle: CodecTypes['pg/text@1']['input'] | null;
+      readonly questTargetLocationId: CodecTypes['pg/text@1']['input'] | null;
     };
     readonly Player: {
       readonly gameId: CodecTypes['pg/text@1']['input'];
@@ -666,6 +686,11 @@ export namespace Models {
     id: CodecTypes['pg/text@1']['output'];
     locationId: CodecTypes['pg/text@1']['output'];
     name: CodecTypes['pg/text@1']['output'];
+    questObjectiveDescription: CodecTypes['pg/text@1']['output'] | null;
+    questObjectiveType: CodecTypes['pg/text@1']['output'] | null;
+    questOfferDescription: CodecTypes['pg/text@1']['output'] | null;
+    questOfferTitle: CodecTypes['pg/text@1']['output'] | null;
+    questTargetLocationId: CodecTypes['pg/text@1']['output'] | null;
     location: public_Location;
     readonly [RelationKeys]?: 'location';
   };
@@ -1141,6 +1166,31 @@ type ContractBase = Omit<
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
+                };
+                readonly questObjectiveDescription: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly questObjectiveType: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly questOfferDescription: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly questOfferTitle: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly questTargetLocationId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
                 };
               };
               primaryKey: { readonly columns: readonly ['id'] };
@@ -1924,6 +1974,26 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly questObjectiveDescription: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly questObjectiveType: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly questOfferDescription: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly questOfferTitle: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly questTargetLocationId: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
             };
             readonly relations: {
               readonly location: {
@@ -1947,6 +2017,13 @@ type ContractBase = Omit<
                 readonly id: { readonly column: 'id' };
                 readonly locationId: { readonly column: 'locationId' };
                 readonly name: { readonly column: 'name' };
+                readonly questObjectiveDescription: {
+                  readonly column: 'questObjectiveDescription';
+                };
+                readonly questObjectiveType: { readonly column: 'questObjectiveType' };
+                readonly questOfferDescription: { readonly column: 'questOfferDescription' };
+                readonly questOfferTitle: { readonly column: 'questOfferTitle' };
+                readonly questTargetLocationId: { readonly column: 'questTargetLocationId' };
               };
             };
           };

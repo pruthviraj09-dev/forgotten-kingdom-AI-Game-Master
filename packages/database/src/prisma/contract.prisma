@@ -65,6 +65,12 @@ model NPC {
 
   locationId String
   location   Location @relation(fields: [locationId], references: [id])
+
+  questOfferTitle              String?
+  questOfferDescription        String?
+  questObjectiveDescription    String?
+  questObjectiveType           String?
+  questTargetLocationId        String?
 }
 
 model Item {
