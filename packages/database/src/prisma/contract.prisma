@@ -10,6 +10,7 @@ model Game {
   locations Location[]
   messages  GameMessage[]
   quests  Quest[]
+  combats Combat[]
 }
 
 model Player {
@@ -103,6 +104,7 @@ model Enemy {
   description String
   hp          Int
   maxHp       Int
+  combats     Combat[]
 
   locationId String
   location   Location @relation(fields: [locationId], references: [id])
@@ -156,7 +158,28 @@ model QuestObjective {
   @@index([questId])
 }
 
+model Combat {
+  id        String   @id @default(uuid())
+  gameId    String
+  enemyId   String
+  status    CombatStatus @default(active)
+
+  createdAt Timestamptz @default(now())
+  updatedAt Timestamptz @default(now())
+
+  game      Game     @relation(fields: [gameId], references: [id])
+  enemy     Enemy    @relation(fields: [enemyId], references: [id])
+
+  @@index([gameId, status])
+}
+
 enum Status {
   active  = "active"
   completed = "completed"
+}
+
+enum CombatStatus {
+  active = "active"
+  playerWon = "playerWon"
+  enemyWon = "enemyWon"
 }

@@ -34,9 +34,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'900cdb199045720c249aa61425706d0425370cc39861f848618058ba99a6823f'>;
+  StorageHashBase<'dc110d4cb529e693d7dbeb330ddc8ed58bc394798d02e5bc02e9817596a30d82'>;
 export type ExecutionHash =
-  ExecutionHashBase<'046535579617812660b01597eb2726c02ae4fd8f57262fa1daa1b7c494c97664'>;
+  ExecutionHashBase<'1c084f3a979fbb936f57ffe58583ad5676d418045f576e4826a87815c8306f88'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -250,6 +250,14 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 
 export type FieldOutputTypes = {
   readonly public: {
+    readonly Combat: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly enemyId: CodecTypes['pg/text@1']['output'];
+      readonly gameId: CodecTypes['pg/text@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    };
     readonly Enemy: {
       readonly description: CodecTypes['pg/text@1']['output'];
       readonly hp: CodecTypes['pg/int4@1']['output'];
@@ -340,6 +348,14 @@ export type FieldOutputTypes = {
 };
 export type FieldInputTypes = {
   readonly public: {
+    readonly Combat: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly enemyId: CodecTypes['pg/text@1']['input'];
+      readonly gameId: CodecTypes['pg/text@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+    };
     readonly Enemy: {
       readonly description: CodecTypes['pg/text@1']['input'];
       readonly hp: CodecTypes['pg/int4@1']['input'];
@@ -430,6 +446,14 @@ export type FieldInputTypes = {
 };
 export type StorageColumnTypes = {
   readonly public: {
+    readonly Combat: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly enemyId: CodecTypes['pg/text@1']['output'];
+      readonly gameId: CodecTypes['pg/text@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    };
     readonly Enemy: {
       readonly description: CodecTypes['pg/text@1']['output'];
       readonly hp: CodecTypes['pg/int4@1']['output'];
@@ -520,6 +544,14 @@ export type StorageColumnTypes = {
 };
 export type StorageColumnInputTypes = {
   readonly public: {
+    readonly Combat: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly enemyId: CodecTypes['pg/text@1']['input'];
+      readonly gameId: CodecTypes['pg/text@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+    };
     readonly Enemy: {
       readonly description: CodecTypes['pg/text@1']['input'];
       readonly hp: CodecTypes['pg/int4@1']['input'];
@@ -610,6 +642,17 @@ export type StorageColumnInputTypes = {
 };
 
 export namespace Models {
+  export type public_Combat = {
+    createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    enemyId: CodecTypes['pg/text@1']['output'];
+    gameId: CodecTypes['pg/text@1']['output'];
+    id: CodecTypes['pg/text@1']['output'];
+    status: 'active' | 'playerWon' | 'enemyWon';
+    updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    enemy: public_Enemy;
+    game: public_Game;
+    readonly [RelationKeys]?: 'enemy' | 'game';
+  };
   export type public_Enemy = {
     description: CodecTypes['pg/text@1']['output'];
     hp: CodecTypes['pg/int4@1']['output'];
@@ -617,19 +660,21 @@ export namespace Models {
     locationId: CodecTypes['pg/text@1']['output'];
     maxHp: CodecTypes['pg/int4@1']['output'];
     name: CodecTypes['pg/text@1']['output'];
+    combats: public_Combat[];
     location: public_Location;
-    readonly [RelationKeys]?: 'location';
+    readonly [RelationKeys]?: 'combats' | 'location';
   };
   export type public_Game = {
     createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
     name: CodecTypes['pg/text@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    combats: public_Combat[];
     locations: public_Location[];
     messages: public_GameMessage[];
     player: public_Player | null;
     quests: public_Quest[];
-    readonly [RelationKeys]?: 'locations' | 'messages' | 'player' | 'quests';
+    readonly [RelationKeys]?: 'combats' | 'locations' | 'messages' | 'player' | 'quests';
   };
   export type public_GameMessage = {
     content: CodecTypes['pg/text@1']['output'];
@@ -738,6 +783,7 @@ export namespace Models {
 
 export declare const models: {
   public: {
+    Combat: Models.public_Combat;
     Enemy: Models.public_Enemy;
     Game: Models.public_Game;
     GameMessage: Models.public_GameMessage;
@@ -770,6 +816,94 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
+            readonly Combat: {
+              columns: {
+                readonly createdAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly enemyId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly gameId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly id: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly status: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'active'>;
+                  };
+                };
+                readonly updatedAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'Combat_enemyId_idx_693fc01e';
+                  readonly prefix: 'Combat_enemyId_idx';
+                  readonly columns: readonly ['enemyId'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'Combat_gameId_idx_6cdb47f8';
+                  readonly prefix: 'Combat_gameId_idx';
+                  readonly columns: readonly ['gameId'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'Combat_gameId_status_idx_777eafd3';
+                  readonly prefix: 'Combat_gameId_status_idx';
+                  readonly columns: readonly ['gameId', 'status'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Combat';
+                    readonly columns: readonly ['gameId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Game';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Combat';
+                    readonly columns: readonly ['enemyId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Enemy';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
             readonly Enemy: {
               columns: {
                 readonly description: {
@@ -1467,6 +1601,10 @@ type ContractBase = Omit<
             };
           };
           readonly valueSet: {
+            readonly CombatStatus: {
+              readonly kind: 'valueSet';
+              readonly values: readonly ['active', 'playerWon', 'enemyWon'];
+            };
             readonly Status: {
               readonly kind: 'valueSet';
               readonly values: readonly ['active', 'completed'];
@@ -1482,6 +1620,7 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
+    readonly Combat: { readonly namespace: 'public' & NamespaceId; readonly model: 'Combat' };
     readonly Enemy: { readonly namespace: 'public' & NamespaceId; readonly model: 'Enemy' };
     readonly Game: { readonly namespace: 'public' & NamespaceId; readonly model: 'Game' };
     readonly GameMessage: {
@@ -1510,6 +1649,75 @@ type ContractBase = Omit<
     readonly namespaces: {
       readonly public: {
         readonly models: {
+          readonly Combat: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+              readonly enemyId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly gameId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly status: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly updatedAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+            };
+            readonly relations: {
+              readonly enemy: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Enemy';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['enemyId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+              readonly game: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Game' };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['gameId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'Combat';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly enemyId: { readonly column: 'enemyId' };
+                readonly gameId: { readonly column: 'gameId' };
+                readonly id: { readonly column: 'id' };
+                readonly status: { readonly column: 'status' };
+                readonly updatedAt: { readonly column: 'updatedAt' };
+              };
+            };
+          };
           readonly Enemy: {
             readonly fields: {
               readonly description: {
@@ -1538,6 +1746,17 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
+              readonly combats: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Combat';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['enemyId'];
+                };
+              };
               readonly location: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
@@ -1590,6 +1809,17 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
+              readonly combats: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Combat';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['gameId'];
+                };
+              };
               readonly locations: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
@@ -2266,6 +2496,14 @@ type ContractBase = Omit<
           };
         };
         readonly enum: {
+          readonly CombatStatus: {
+            readonly codecId: 'pg/text@1';
+            readonly members: readonly [
+              { readonly name: 'active'; readonly value: 'active' },
+              { readonly name: 'playerWon'; readonly value: 'playerWon' },
+              { readonly name: 'enemyWon'; readonly value: 'enemyWon' },
+            ];
+          };
           readonly Status: {
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
@@ -2302,6 +2540,14 @@ type ContractBase = Omit<
     readonly executionHash: ExecutionHash;
     readonly mutations: {
       readonly defaults: readonly [
+        {
+          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'Combat';
+            readonly field: 'id';
+            readonly namespace: 'public';
+          };
+        },
         {
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {

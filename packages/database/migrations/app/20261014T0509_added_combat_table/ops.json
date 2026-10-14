@@ -1,0 +1,242 @@
+[
+  {
+    "id": "table.Combat",
+    "label": "Create table \"Combat\"",
+    "summary": "Creates table \"Combat\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Combat\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Combat\"",
+        "sql": "CREATE TABLE \"public\".\"Combat\" (\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"enemyId\" text NOT NULL,\n  \"gameId\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"status\" text DEFAULT 'active' NOT NULL,\n  \"updatedAt\" timestamptz DEFAULT (now()) NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Combat_status_check_61b97488\" CHECK (\"status\" IN ('active', 'playerWon', 'enemyWon'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Combat\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Combat.Combat_enemyId_idx_693fc01e",
+    "label": "Create index \"Combat_enemyId_idx_693fc01e\" on \"Combat\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Combat_enemyId_idx_693fc01e",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Combat_enemyId_idx_693fc01e\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat_enemyId_idx_693fc01e\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Combat_enemyId_idx_693fc01e\"",
+        "sql": "CREATE INDEX \"Combat_enemyId_idx_693fc01e\" ON \"public\".\"Combat\" (\"enemyId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Combat_enemyId_idx_693fc01e\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat_enemyId_idx_693fc01e\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Combat.Combat_gameId_idx_6cdb47f8",
+    "label": "Create index \"Combat_gameId_idx_6cdb47f8\" on \"Combat\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Combat_gameId_idx_6cdb47f8",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Combat_gameId_idx_6cdb47f8\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Combat_gameId_idx_6cdb47f8\"",
+        "sql": "CREATE INDEX \"Combat_gameId_idx_6cdb47f8\" ON \"public\".\"Combat\" (\"gameId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Combat_gameId_idx_6cdb47f8\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat_gameId_idx_6cdb47f8\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Combat.Combat_gameId_status_idx_777eafd3",
+    "label": "Create index \"Combat_gameId_status_idx_777eafd3\" on \"Combat\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Combat_gameId_status_idx_777eafd3",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Combat_gameId_status_idx_777eafd3\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat_gameId_status_idx_777eafd3\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Combat_gameId_status_idx_777eafd3\"",
+        "sql": "CREATE INDEX \"Combat_gameId_status_idx_777eafd3\" ON \"public\".\"Combat\" (\"gameId\", \"status\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Combat_gameId_status_idx_777eafd3\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Combat_gameId_status_idx_777eafd3\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Combat.Combat_gameId_fkey",
+    "label": "Add foreign key \"Combat_gameId_fkey\" on \"Combat\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Combat_gameId_fkey",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Combat_gameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_gameId_fkey",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Combat_gameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Combat\"\nADD CONSTRAINT \"Combat_gameId_fkey\"\nFOREIGN KEY (\"gameId\")\nREFERENCES \"public\".\"Game\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Combat_gameId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_gameId_fkey",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Combat.Combat_enemyId_fkey",
+    "label": "Add foreign key \"Combat_enemyId_fkey\" on \"Combat\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Combat_enemyId_fkey",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Combat_enemyId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_enemyId_fkey",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Combat_enemyId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Combat\"\nADD CONSTRAINT \"Combat_enemyId_fkey\"\nFOREIGN KEY (\"enemyId\")\nREFERENCES \"public\".\"Enemy\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Combat_enemyId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_enemyId_fkey",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ]
+  }
+]

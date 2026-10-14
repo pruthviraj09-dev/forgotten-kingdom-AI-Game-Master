@@ -4,6 +4,10 @@
   "target": "postgres",
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
+    "Combat": {
+      "model": "Combat",
+      "namespace": "public"
+    },
     "Enemy": {
       "model": "Enemy",
       "namespace": "public"
@@ -53,6 +57,23 @@
     "namespaces": {
       "public": {
         "enum": {
+          "CombatStatus": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "active",
+                "value": "active"
+              },
+              {
+                "name": "playerWon",
+                "value": "playerWon"
+              },
+              {
+                "name": "enemyWon",
+                "value": "enemyWon"
+              }
+            ]
+          },
           "Status": {
             "codecId": "pg/text@1",
             "members": [
@@ -68,6 +89,116 @@
           }
         },
         "models": {
+          "Combat": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "enemyId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "gameId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "status": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "CombatStatus",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "enemy": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "enemyId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Enemy",
+                  "namespace": "public"
+                }
+              },
+              "game": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "gameId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Game",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "enemyId": {
+                  "column": "enemyId"
+                },
+                "gameId": {
+                  "column": "gameId"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "status": {
+                  "column": "status"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Combat"
+            }
+          },
           "Enemy": {
             "fields": {
               "description": {
@@ -114,6 +245,21 @@
               }
             },
             "relations": {
+              "combats": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "enemyId"
+                  ]
+                },
+                "to": {
+                  "model": "Combat",
+                  "namespace": "public"
+                }
+              },
               "location": {
                 "cardinality": "N:1",
                 "nullable": false,
@@ -188,6 +334,21 @@
               }
             },
             "relations": {
+              "combats": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "gameId"
+                  ]
+                },
+                "to": {
+                  "model": "Combat",
+                  "namespace": "public"
+                }
+              },
               "locations": {
                 "cardinality": "1:N",
                 "on": {
@@ -1259,6 +1420,132 @@
       "public": {
         "entries": {
           "table": {
+            "Combat": {
+              "checks": [
+                {
+                  "expression": "\"status\" IN ('active', 'playerWon', 'enemyWon')",
+                  "name": "Combat_status_check_61b97488",
+                  "prefix": "Combat_status_check"
+                }
+              ],
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "enemyId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "gameId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "status": {
+                  "codecId": "pg/text@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": "active"
+                  },
+                  "nativeType": "text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "CombatStatus",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "gameId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Combat"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Game"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "enemyId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Combat"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Enemy"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "enemyId"
+                  ],
+                  "name": "Combat_enemyId_idx_693fc01e",
+                  "prefix": "Combat_enemyId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "gameId"
+                  ],
+                  "name": "Combat_gameId_idx_6cdb47f8",
+                  "prefix": "Combat_gameId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "gameId",
+                    "status"
+                  ],
+                  "name": "Combat_gameId_status_idx_777eafd3",
+                  "prefix": "Combat_gameId_status_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "Enemy": {
               "columns": {
                 "description": {
@@ -2136,6 +2423,14 @@
             }
           },
           "valueSet": {
+            "CombatStatus": {
+              "kind": "valueSet",
+              "values": [
+                "active",
+                "playerWon",
+                "enemyWon"
+              ]
+            },
             "Status": {
               "kind": "valueSet",
               "values": [
@@ -2149,12 +2444,23 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "900cdb199045720c249aa61425706d0425370cc39861f848618058ba99a6823f"
+    "storageHash": "dc110d4cb529e693d7dbeb330ddc8ed58bc394798d02e5bc02e9817596a30d82"
   },
   "execution": {
-    "executionHash": "046535579617812660b01597eb2726c02ae4fd8f57262fa1daa1b7c494c97664",
+    "executionHash": "1c084f3a979fbb936f57ffe58583ad5676d418045f576e4826a87815c8306f88",
     "mutations": {
       "defaults": [
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Combat",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
         {
           "onCreate": {
             "id": "uuidv4",
