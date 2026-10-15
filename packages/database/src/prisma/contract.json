@@ -71,6 +71,10 @@
               {
                 "name": "enemyWon",
                 "value": "enemyWon"
+              },
+              {
+                "name": "fled",
+                "value": "fled"
               }
             ]
           },
@@ -1423,8 +1427,8 @@
             "Combat": {
               "checks": [
                 {
-                  "expression": "\"status\" IN ('active', 'playerWon', 'enemyWon')",
-                  "name": "Combat_status_check_61b97488",
+                  "expression": "\"status\" IN ('active', 'playerWon', 'enemyWon', 'fled')",
+                  "name": "Combat_status_check_ac1cbb2b",
                   "prefix": "Combat_status_check"
                 }
               ],
@@ -2428,7 +2432,8 @@
               "values": [
                 "active",
                 "playerWon",
-                "enemyWon"
+                "enemyWon",
+                "fled"
               ]
             },
             "Status": {
@@ -2444,7 +2449,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "dc110d4cb529e693d7dbeb330ddc8ed58bc394798d02e5bc02e9817596a30d82"
+    "storageHash": "3863c489945921be5263a75df2655c859f055310372ce3eff69c78fafc04b954"
   },
   "execution": {
     "executionHash": "1c084f3a979fbb936f57ffe58583ad5676d418045f576e4826a87815c8306f88",

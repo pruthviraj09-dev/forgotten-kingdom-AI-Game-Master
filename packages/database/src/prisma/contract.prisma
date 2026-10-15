@@ -182,4 +182,5 @@ enum CombatStatus {
   active = "active"
   playerWon = "playerWon"
   enemyWon = "enemyWon"
+  fled = "fled"
 }

@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'dc110d4cb529e693d7dbeb330ddc8ed58bc394798d02e5bc02e9817596a30d82'>;
+  StorageHashBase<'3863c489945921be5263a75df2655c859f055310372ce3eff69c78fafc04b954'>;
 export type ExecutionHash =
   ExecutionHashBase<'1c084f3a979fbb936f57ffe58583ad5676d418045f576e4826a87815c8306f88'>;
 export type ProfileHash =
@@ -255,7 +255,7 @@ export type FieldOutputTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['output'];
       readonly gameId: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
     readonly Enemy: {
@@ -353,7 +353,7 @@ export type FieldInputTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['input'];
       readonly gameId: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
     readonly Enemy: {
@@ -451,7 +451,7 @@ export type StorageColumnTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['output'];
       readonly gameId: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
     readonly Enemy: {
@@ -549,7 +549,7 @@ export type StorageColumnInputTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['input'];
       readonly gameId: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon';
+      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
     readonly Enemy: {
@@ -647,7 +647,7 @@ export namespace Models {
     enemyId: CodecTypes['pg/text@1']['output'];
     gameId: CodecTypes['pg/text@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
-    status: 'active' | 'playerWon' | 'enemyWon';
+    status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
     updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     enemy: public_Enemy;
     game: public_Game;
@@ -1603,7 +1603,7 @@ type ContractBase = Omit<
           readonly valueSet: {
             readonly CombatStatus: {
               readonly kind: 'valueSet';
-              readonly values: readonly ['active', 'playerWon', 'enemyWon'];
+              readonly values: readonly ['active', 'playerWon', 'enemyWon', 'fled'];
             };
             readonly Status: {
               readonly kind: 'valueSet';
@@ -2502,6 +2502,7 @@ type ContractBase = Omit<
               { readonly name: 'active'; readonly value: 'active' },
               { readonly name: 'playerWon'; readonly value: 'playerWon' },
               { readonly name: 'enemyWon'; readonly value: 'enemyWon' },
+              { readonly name: 'fled'; readonly value: 'fled' },
             ];
           };
           readonly Status: {
