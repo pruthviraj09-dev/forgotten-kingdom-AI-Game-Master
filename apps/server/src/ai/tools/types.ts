@@ -41,3 +41,15 @@ export const completeQuestInput = z.object({
 export const talkToNpcInput = z.object({
     npcId: z.string(),
 })
+
+export const startCombatInput = z.object({
+    enemyId: z.string()
+})
+
+export const attackEnemyInput = z.object({
+    enemyId: z.string()
+})
+
+export const fleeCombatInput = z.object({
+    enemyId: z.string()
+})

@@ -1,15 +1,19 @@
+import { attackEnemyTool } from "./tools/attack-enemy.tool"
 import { completeQuestTool } from "./tools/complete-quest.tool"
 import { createQuestTool } from "./tools/create-quest.tool"
 import { dropItemTool } from "./tools/drop-item.tool"
+import { fleeCombatTool } from "./tools/flee-combat.tool"
 import { getInventoryTool } from "./tools/get-inventory.tool"
 import { getLocationTool } from "./tools/get-location.tool"
+import { getNearbyEnemiesTool } from "./tools/get-nearby-enemies.tool"
 import { getNearbyLocationsTool } from "./tools/get-nearby-locations.tool"
 import { getPlayerTool } from "./tools/get-player.tool"
 import { getQuestsTool } from "./tools/get_quests.tool"
 import { movePlayerTool } from "./tools/move-player.tool"
 import { pickupItemTool } from "./tools/pickup-item.tool"
+import { startCombatTool } from "./tools/start-combat.tool"
 import { talkToNpcTool } from "./tools/talk-to-npc.tool"
-import { completeQuestInput, createQuestInput, dropItemInput, getLocationInput, getNearbyLocationsInput, movePlayerInput, pickupItemInput, talkToNpcInput } from "./tools/types"
+import { attackEnemyInput, completeQuestInput, createQuestInput, dropItemInput, fleeCombatInput, getLocationInput, getNearbyLocationsInput, movePlayerInput, pickupItemInput, startCombatInput, talkToNpcInput } from "./tools/types"
 
 
 type ToolContext = {
@@ -73,7 +77,20 @@ export async function executeTool(
             const TTNInput = talkToNpcInput.parse(args)
             return talkToNpcTool(context.gameId, TTNInput.npcId)
 
-        // case "attack_enemy":
+        case "get_nearby_enemies":
+            return getNearbyEnemiesTool(context.gameId)
+
+        case "start_combat":
+            const scInput = startCombatInput.parse(args)
+            return startCombatTool(context.gameId, scInput.enemyId)
+
+        case "attack_enemy":
+            const aeInput = attackEnemyInput.parse(args)
+            return attackEnemyTool(context.gameId, aeInput.enemyId)
+
+        case "flee_combat":
+            const fcInput = fleeCombatInput.parse(args)
+            return fleeCombatTool(context.gameId, fcInput.enemyId)
 
         // case "use_item":
 

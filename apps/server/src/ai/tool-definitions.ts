@@ -109,9 +109,21 @@ const toolDefinations: FunctionDeclaration[] = [
                 description: {
                     type: Type.STRING,
                     description: "A concise description of the quest objective."
+                },
+                objectiveDescription: {
+                    type: Type.STRING,
+                    description: "A concise description of the quest objective."
+                },
+                objectiveType: {
+                    type: Type.STRING,
+                    description: "The type of the quest objective."
+                },
+                targetLocationId: {
+                    type: Type.STRING,
+                    description: "The ID of the location to complete the quest."
                 }
             },
-            required: ["title", "description"]
+            required: ["title", "description", "objectiveDescription", "objectiveType", "targetLocationId"]
         }
     },
     {
@@ -141,6 +153,43 @@ const toolDefinations: FunctionDeclaration[] = [
             },
             required: ["npcId"]
         }
+    },
+    {
+        name: "get_nearby_enemies",
+        description: "Get the enemies at the player's current location, including their IDs and current health.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {},
+        }
+    },
+    {
+        name: "start_combat",
+        description: "Start a combat encounter with an enemy in the current location.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                enemyId: {
+                    type: Type.STRING,
+                    description: "The ID of the enemy to start combat with."
+                }
+            },
+            required: ["enemyId"]
+        }
+    },
+    {
+        name: "attack_enemy",
+        description:
+            "Attack an enemy in the player's active combat encounter.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                enemyId: {
+                    type: Type.STRING,
+                    description: "The ID of the enemy being attacked.",
+                },
+            },
+            required: ["enemyId"],
+        },
     }
 ]
 
