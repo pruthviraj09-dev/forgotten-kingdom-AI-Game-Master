@@ -190,6 +190,21 @@ const toolDefinations: FunctionDeclaration[] = [
             },
             required: ["enemyId"],
         },
+    },
+    {
+        name: "flee_combat",
+        description:
+            "Attempt to escape an active combat encounter with an enemy.",
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                enemyId: {
+                    type: Type.STRING,
+                    description: "The ID of the enemy in the active encounter.",
+                },
+            },
+            required: ["enemyId"],
+        },
     }
 ]
 

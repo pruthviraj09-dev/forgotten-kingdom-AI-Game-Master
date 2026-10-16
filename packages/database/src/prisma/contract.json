@@ -61,20 +61,20 @@
             "codecId": "pg/text@1",
             "members": [
               {
-                "name": "active",
-                "value": "active"
+                "name": "ACTIVE",
+                "value": "ACTIVE"
               },
               {
-                "name": "playerWon",
-                "value": "playerWon"
+                "name": "PLAYER_WON",
+                "value": "PLAYER_WON"
               },
               {
-                "name": "enemyWon",
-                "value": "enemyWon"
+                "name": "ENEMY_WON",
+                "value": "ENEMY_WON"
               },
               {
-                "name": "fled",
-                "value": "fled"
+                "name": "FLED",
+                "value": "FLED"
               }
             ]
           },
@@ -1427,8 +1427,8 @@
             "Combat": {
               "checks": [
                 {
-                  "expression": "\"status\" IN ('active', 'playerWon', 'enemyWon', 'fled')",
-                  "name": "Combat_status_check_ac1cbb2b",
+                  "expression": "\"status\" IN ('ACTIVE', 'PLAYER_WON', 'ENEMY_WON', 'FLED')",
+                  "name": "Combat_status_check_cb67ca10",
                   "prefix": "Combat_status_check"
                 }
               ],
@@ -1461,7 +1461,7 @@
                   "codecId": "pg/text@1",
                   "default": {
                     "kind": "literal",
-                    "value": "active"
+                    "value": "ACTIVE"
                   },
                   "nativeType": "text",
                   "nullable": false,
@@ -2430,10 +2430,10 @@
             "CombatStatus": {
               "kind": "valueSet",
               "values": [
-                "active",
-                "playerWon",
-                "enemyWon",
-                "fled"
+                "ACTIVE",
+                "PLAYER_WON",
+                "ENEMY_WON",
+                "FLED"
               ]
             },
             "Status": {
@@ -2449,7 +2449,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "3863c489945921be5263a75df2655c859f055310372ce3eff69c78fafc04b954"
+    "storageHash": "f568b3e0bdfd00930b513dd443e588d8af42f3d69c082afef45461ee046896c5"
   },
   "execution": {
     "executionHash": "1c084f3a979fbb936f57ffe58583ad5676d418045f576e4826a87815c8306f88",

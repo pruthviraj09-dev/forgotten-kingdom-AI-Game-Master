@@ -24,7 +24,7 @@ export async function startCombat(gameId: string, enemyId: string) {
 
     const existingCombat = await db.orm.public.Combat.where({
         gameId,
-        status: "active"
+        status: "ACTIVE"
     }).first()
 
     if (existingCombat) {
@@ -74,7 +74,7 @@ export async function attackEnemy(gameId: string, enemyId: string) {
     const combat = await db.orm.public.Combat.where({
         gameId,
         enemyId,
-        status: "active"
+        status: "ACTIVE"
     }).first()
 
     if (!combat) {
@@ -103,14 +103,52 @@ export async function attackEnemy(gameId: string, enemyId: string) {
 
     const defeated = newEnemyHp === 0
 
+    await db.orm.public.Enemy.where({ id: enemyId }).update({
+        hp: newEnemyHp,
+    })
+
     if (defeated) {
-        await db.orm.public.Combat.where({ id: combat.id }).update({ status: "playerWon" })
+        await db.orm.public.Combat.where({ id: combat.id }).update({ status: "PLAYER_WON" })
+
+        return {
+            success: true,
+            damage,
+            defeated,
+            enemy: {
+                id: enemy.id,
+                name: enemy.name,
+                previousHp: enemy.hp,
+                hp: newEnemyHp,
+                maxHp: enemy.maxHp,
+            },
+            combatStatus: defeated ? "PLAYER_WON" : "ACTIVE",
+        }
+    }
+
+    const enemyDamage = 5;
+    const newPlayerHp = Math.max(0, player.hp - enemyDamage)
+
+    const playerDefeated = newPlayerHp === 0
+
+    await db.orm.public.Player.where({ id: player.id }).update({ hp: newPlayerHp })
+
+    if (playerDefeated) {
+        await db.orm.public.Combat.where({ id: combat.id }).update({
+            status: "ENEMY_WON"
+        })
     }
 
     return {
         success: true,
-        damage,
-        defeated,
+        playerDamage: damage,
+        enemyDamage,
+        enemyDefeated: false,
+        enemyRetaliated: true,
+        playerDefeated,
+        player: {
+            hp: player.hp,
+            maxHp: player.maxHp
+        },
         enemy: {
             id: enemy.id,
             name: enemy.name,
@@ -118,10 +156,8 @@ export async function attackEnemy(gameId: string, enemyId: string) {
             hp: newEnemyHp,
             maxHp: enemy.maxHp,
         },
-        combatStatus: defeated ? "playerwon" : "active",
+        combatStatus: playerDefeated ? "ENEMY_WON" : "ACTIVE",
     }
-
-
 }
 
 export async function fleeCombat(gameId: string, enemyId: string) {
@@ -138,7 +174,7 @@ export async function fleeCombat(gameId: string, enemyId: string) {
         .where({
             gameId,
             enemyId,
-            status: "active",
+            status: "ACTIVE",
         })
         .first();
 
@@ -157,7 +193,7 @@ export async function fleeCombat(gameId: string, enemyId: string) {
         throw new Error("Enemy is not available for this encounter");
     }
 
-    await db.orm.public.Combat.where({ id: combat.id }).update({ status: "fled" })
+    await db.orm.public.Combat.where({ id: combat.id }).update({ status: "FLED" })
 
     return {
         success: true,

@@ -162,7 +162,7 @@ model Combat {
   id        String   @id @default(uuid())
   gameId    String
   enemyId   String
-  status    CombatStatus @default(active)
+  status    CombatStatus @default(ACTIVE)
 
   createdAt Timestamptz @default(now())
   updatedAt Timestamptz @default(now())
@@ -179,8 +179,8 @@ enum Status {
 }
 
 enum CombatStatus {
-  active = "active"
-  playerWon = "playerWon"
-  enemyWon = "enemyWon"
-  fled = "fled"
+  ACTIVE = "ACTIVE"
+  PLAYER_WON = "PLAYER_WON"
+  ENEMY_WON = "ENEMY_WON"
+  FLED = "FLED"
 }

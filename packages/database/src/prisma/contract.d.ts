@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'3863c489945921be5263a75df2655c859f055310372ce3eff69c78fafc04b954'>;
+  StorageHashBase<'f568b3e0bdfd00930b513dd443e588d8af42f3d69c082afef45461ee046896c5'>;
 export type ExecutionHash =
   ExecutionHashBase<'1c084f3a979fbb936f57ffe58583ad5676d418045f576e4826a87815c8306f88'>;
 export type ProfileHash =
@@ -255,7 +255,7 @@ export type FieldOutputTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['output'];
       readonly gameId: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
+      readonly status: 'ACTIVE' | 'PLAYER_WON' | 'ENEMY_WON' | 'FLED';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
     readonly Enemy: {
@@ -353,7 +353,7 @@ export type FieldInputTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['input'];
       readonly gameId: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
+      readonly status: 'ACTIVE' | 'PLAYER_WON' | 'ENEMY_WON' | 'FLED';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
     readonly Enemy: {
@@ -451,7 +451,7 @@ export type StorageColumnTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['output'];
       readonly gameId: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
+      readonly status: 'ACTIVE' | 'PLAYER_WON' | 'ENEMY_WON' | 'FLED';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
     readonly Enemy: {
@@ -549,7 +549,7 @@ export type StorageColumnInputTypes = {
       readonly enemyId: CodecTypes['pg/text@1']['input'];
       readonly gameId: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
+      readonly status: 'ACTIVE' | 'PLAYER_WON' | 'ENEMY_WON' | 'FLED';
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
     readonly Enemy: {
@@ -647,7 +647,7 @@ export namespace Models {
     enemyId: CodecTypes['pg/text@1']['output'];
     gameId: CodecTypes['pg/text@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
-    status: 'active' | 'playerWon' | 'enemyWon' | 'fled';
+    status: 'ACTIVE' | 'PLAYER_WON' | 'ENEMY_WON' | 'FLED';
     updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     enemy: public_Enemy;
     game: public_Game;
@@ -845,7 +845,7 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly default: {
                     readonly kind: 'literal';
-                    readonly value: DefaultLiteralValue<'pg/text@1', 'active'>;
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'ACTIVE'>;
                   };
                 };
                 readonly updatedAt: {
@@ -1603,7 +1603,7 @@ type ContractBase = Omit<
           readonly valueSet: {
             readonly CombatStatus: {
               readonly kind: 'valueSet';
-              readonly values: readonly ['active', 'playerWon', 'enemyWon', 'fled'];
+              readonly values: readonly ['ACTIVE', 'PLAYER_WON', 'ENEMY_WON', 'FLED'];
             };
             readonly Status: {
               readonly kind: 'valueSet';
@@ -2499,10 +2499,10 @@ type ContractBase = Omit<
           readonly CombatStatus: {
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
-              { readonly name: 'active'; readonly value: 'active' },
-              { readonly name: 'playerWon'; readonly value: 'playerWon' },
-              { readonly name: 'enemyWon'; readonly value: 'enemyWon' },
-              { readonly name: 'fled'; readonly value: 'fled' },
+              { readonly name: 'ACTIVE'; readonly value: 'ACTIVE' },
+              { readonly name: 'PLAYER_WON'; readonly value: 'PLAYER_WON' },
+              { readonly name: 'ENEMY_WON'; readonly value: 'ENEMY_WON' },
+              { readonly name: 'FLED'; readonly value: 'FLED' },
             ];
           };
           readonly Status: {

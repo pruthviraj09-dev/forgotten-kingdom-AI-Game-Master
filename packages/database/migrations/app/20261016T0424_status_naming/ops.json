@@ -1,0 +1,128 @@
+[
+  {
+    "id": "dropCheckConstraint.Combat.Combat_status_check_ac1cbb2b",
+    "label": "Drop check constraint \"Combat_status_check_ac1cbb2b\" on \"Combat\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Combat_status_check_ac1cbb2b",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Combat_status_check_ac1cbb2b\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_status_check_ac1cbb2b",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop check constraint \"Combat_status_check_ac1cbb2b\"",
+        "sql": "ALTER TABLE \"public\".\"Combat\" DROP CONSTRAINT \"Combat_status_check_ac1cbb2b\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Combat_status_check_ac1cbb2b\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_status_check_ac1cbb2b",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "setDefault.Combat.status",
+    "label": "Set default on \"Combat\".\"status\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "status",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"status\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Combat",
+          "status"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "set default on \"status\"",
+        "sql": "ALTER TABLE \"public\".\"Combat\" ALTER COLUMN \"status\" SET DEFAULT 'ACTIVE'"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"status\" has a default",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"column_default\" IS NOT NULL)) AS \"result\"",
+        "params": [
+          "public",
+          "Combat",
+          "status"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Combat.Combat_status_check_cb67ca10",
+    "label": "Add check constraint \"Combat_status_check_cb67ca10\" on \"Combat\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Combat_status_check_cb67ca10",
+        "table": "Combat"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Combat_status_check_cb67ca10\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_status_check_cb67ca10",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"Combat_status_check_cb67ca10\"",
+        "sql": "ALTER TABLE \"public\".\"Combat\" ADD CONSTRAINT \"Combat_status_check_cb67ca10\" CHECK (\"status\" IN ('ACTIVE', 'PLAYER_WON', 'ENEMY_WON', 'FLED'))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Combat_status_check_cb67ca10\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Combat_status_check_cb67ca10",
+          "public",
+          "\"public\".\"Combat\""
+        ]
+      }
+    ]
+  }
+]
