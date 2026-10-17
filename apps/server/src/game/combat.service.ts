@@ -29,6 +29,7 @@ export async function startCombat(gameId: string, enemyId: string) {
 
     if (existingCombat) {
         if (existingCombat.enemyId === enemyId) {
+            console.log("Combat is already active against this enemy")
             return {
                 success: true,
                 message: "Combat is already active against this enemy",
@@ -42,13 +43,17 @@ export async function startCombat(gameId: string, enemyId: string) {
             };
         }
 
+        console.log("Another combat encounter is already active")
         throw new Error("Another combat encounter is already active");
     }
 
     const combat = await db.orm.public.Combat.create({
         enemyId,
         gameId,
+        status: "ACTIVE"
     })
+
+    console.log("Combat started")
 
     return {
         success: true,
@@ -78,6 +83,7 @@ export async function attackEnemy(gameId: string, enemyId: string) {
     }).first()
 
     if (!combat) {
+        console.log("No Active combat with this enemy")
         throw new Error("No Active combat with this enemy")
     }
 
@@ -89,12 +95,14 @@ export async function attackEnemy(gameId: string, enemyId: string) {
         .first();
 
     if (!enemy) {
+        console.log("Enemy is not at the player's current location")
         throw new Error(
             "Enemy is not at the player's current location"
         );
     }
 
     if (enemy.hp <= 0) {
+        console.log("This enemy has already been defeated")
         throw new Error("This enemy has already been defeated")
     }
 
@@ -109,11 +117,14 @@ export async function attackEnemy(gameId: string, enemyId: string) {
 
     if (defeated) {
         await db.orm.public.Combat.where({ id: combat.id }).update({ status: "PLAYER_WON" })
-
+        console.log("Enemy defeated")
         return {
             success: true,
-            damage,
-            defeated,
+            playerDamage: damage,
+            enemyDamage: 0,
+            enemyDefeated: true,
+            enemyRetaliated: false,
+            playerDefeated: false,
             enemy: {
                 id: enemy.id,
                 name: enemy.name,
@@ -137,6 +148,9 @@ export async function attackEnemy(gameId: string, enemyId: string) {
             status: "ENEMY_WON"
         })
     }
+
+    console.log("Combat continues")
+
 
     return {
         success: true,
@@ -204,7 +218,7 @@ export async function fleeCombat(gameId: string, enemyId: string) {
             name: enemy.name,
             hp: enemy.hp,
         },
-        combatStatus: "fled",
+        combatStatus: "FLED",
         message: "The player escaped combat.",
     }
 
